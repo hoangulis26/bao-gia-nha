@@ -29,6 +29,26 @@
     @keyframes flashRed   { 0%{background:#fee2e2;} 100%{background:transparent;} }
     .flash-green { animation: flashGreen .6s ease-out; }
     .flash-red   { animation: flashRed   .6s ease-out; }
+
+    /* Tap hint animation */
+    @keyframes tapBounce {
+      0%,100% { transform: translateY(0) rotate(-15deg); }
+      50%      { transform: translateY(-6px) rotate(-15deg); }
+    }
+    @keyframes hintFade {
+      0%   { opacity:1; }
+      70%  { opacity:1; }
+      100% { opacity:0; }
+    }
+    .tap-hint {
+      position: absolute;
+      font-size: 20px;
+      pointer-events: none;
+      animation: tapBounce .6s ease-in-out infinite, hintFade 3s ease forwards;
+      z-index: 10;
+      margin-left: -8px;
+      margin-top: -22px;
+    }
   </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -1128,7 +1148,20 @@
       reader.readAsText(file);
     }
 
-    window.addEventListener("DOMContentLoaded", recalc);
+    window.addEventListener("DOMContentLoaded", () => { recalc(); // Tap hint — show bouncing finger on first toggle button, disappear after 3s or first click
+    (function() {
+      const firstBtn = document.querySelector('.btn-toggle');
+      if (!firstBtn) return;
+      const hint = document.createElement('span');
+      hint.className = 'tap-hint';
+      hint.textContent = '👆';
+      firstBtn.style.position = 'relative';
+      firstBtn.parentElement.style.position = 'relative';
+      firstBtn.insertAdjacentElement('beforebegin', hint);
+      const remove = () => { hint.remove(); document.removeEventListener('click', remove); };
+      setTimeout(remove, 3000);
+      document.addEventListener('click', remove);
+    })(); });
   </script>
 </body>
 </html>

@@ -53,6 +53,26 @@
     .flash-red   { animation: flashRed   0.5s ease-out; border-radius:6px; }
     .count-anim  { animation: countUp    0.25s ease-out; }
     .total-val   { display:inline-block; transition: color .2s; }
+
+    /* Tap hint animation */
+    @keyframes tapBounce {
+      0%,100% { transform: translateY(0) rotate(-15deg); }
+      50%      { transform: translateY(-6px) rotate(-15deg); }
+    }
+    @keyframes hintFade {
+      0%   { opacity:1; }
+      70%  { opacity:1; }
+      100% { opacity:0; }
+    }
+    .tap-hint {
+      position: absolute;
+      font-size: 20px;
+      pointer-events: none;
+      animation: tapBounce .6s ease-in-out infinite, hintFade 3s ease forwards;
+      z-index: 10;
+      margin-left: -8px;
+      margin-top: -22px;
+    }
   </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
