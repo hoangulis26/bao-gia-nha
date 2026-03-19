@@ -367,6 +367,7 @@
         <div>
           <h2 class="text-lg font-bold">Tầng 4 — WC <span class="text-sm font-normal text-gray-400">(sàn T4 — tự trả)</span></h2>
         </div>
+        <span class="ml-auto text-base font-bold text-amber-700" id="wc4-total-header">...</span>
       </div>
       <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         <div class="grid md:grid-cols-2">
@@ -379,9 +380,76 @@
             </div>
           </div>
           <div class="p-4 flex flex-col justify-center text-sm text-gray-600">
-            <p class="mb-3">WC tầng 4 — tương tự T3. Chi tiết do T4 tự quyết định.</p>
-            <div class="bg-gray-50 rounded-xl p-3 text-xs text-gray-500">T4 tự thanh toán toàn bộ sàn của mình (WC + phòng ngủ).</div>
+          <div class="space-y-1.5 text-sm">
+            <div class="item-row state-keep" data-price="10800000" data-section="wc4" data-state="keep" data-disc="0">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Cửa WC composite (2 bộ)</span>
+                <span class="price-val tabular-nums font-medium">10,800,000đ</span>
+              </div>
+              <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            </div>
+            <div class="item-row state-keep" data-price="9500000" data-section="wc4" data-state="keep" data-disc="0">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Bồn cầu âm tường</span>
+                <span class="price-val tabular-nums font-medium">9,500,000đ</span>
+              </div>
+              <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            </div>
+            <div class="item-row state-keep" data-price="7200000" data-section="wc4" data-state="keep" data-disc="0">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Phụ kiện vệ sinh</span>
+                <span class="price-val tabular-nums font-medium">7,200,000đ</span>
+              </div>
+              <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            </div>
+            <div class="item-row state-keep" data-price="2028000" data-section="wc4" data-state="keep" data-disc="0">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Đèn trần WC</span>
+                <span class="price-val tabular-nums font-medium">2,028,000đ</span>
+              </div>
+              <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            </div>
+            <div class="item-row state-keep" data-price="2268000" data-section="wc4" data-state="keep" data-disc="0">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Kệ tủ nhỏ trên bồn cầu</span>
+                <span class="price-val tabular-nums font-medium">2,268,000đ</span>
+              </div>
+              <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            </div>
+            <div class="item-row state-keep" data-price="7560000" data-section="wc4" data-state="keep" data-disc="0">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Tủ trên bồn cầu</span>
+                <span class="price-val tabular-nums font-medium">7,560,000đ</span>
+              </div>
+              <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            </div>
+            <div class="item-row state-keep" data-price="2500000" data-section="wc4" data-state="keep" data-disc="0">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Chậu rửa</span>
+                <span class="price-val tabular-nums font-medium">2,500,000đ</span>
+              </div>
+              <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            </div>
+            <div class="item-row state-keep" data-price="2148000" data-section="wc4" data-state="keep" data-disc="0">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Bình nóng lạnh</span>
+                <span class="price-val tabular-nums font-medium">2,148,000đ</span>
+              </div>
+              <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            </div>
+            <div class="border-t pt-2 mt-2 space-y-1">
+              <div class="flex justify-between text-xs font-bold text-amber-700"><span>Tổng T4 WC</span><span id="wc4-total" class="tabular-nums">...</span></div>
+            </div>
           </div>
+</div>
         </div>
       </div>
     </section>
@@ -510,17 +578,19 @@
             <div class="flex justify-between"><span>Phần chung (÷3)</span><span id="t4-share-breakdown">...</span></div>
           </div>
         </div>
-        <!-- Bố mẹ -->
+        <!-- T2 -->
         <div class="bg-white rounded-2xl border border-gray-100 p-5">
-          <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Bố mẹ (T2)</p>
-          <p class="text-3xl font-bold mb-1">~67M</p>
-          <p class="text-xs text-gray-400">Phần chung ÷3 (~67M)</p>
+          <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">T2</p>
+          <p class="text-3xl font-bold mb-3" id="t2-total">...</p>
+          <div class="space-y-1 text-xs text-gray-500">
+            <div class="flex justify-between"><span>Phần chung (÷3)</span><span id="t2-share-display">...</span></div>
+          </div>
         </div>
       </div>
       <!-- Grand total bar -->
       <div class="bg-gray-900 text-white rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <p class="text-xs text-gray-400 mb-1">Grand Total (3 bên)</p>
+          <p class="text-xs text-gray-400 mb-1">Grand Total</p>
           <p class="text-3xl font-bold" id="grand-total">...</p>
         </div>
         <div class="text-sm text-gray-400 space-y-1 text-right">
@@ -691,15 +761,23 @@
         <div class="flex justify-between"><span>Phí thiết kế (÷3)</span><span>${fmt(tkShare)}</span></div>
       `;
 
-      // T4 total
-      const t4Total = ng + pkShare + bepShare + thoShare + tkShare;
-      setText('t4-total', fmt(t4Total), t4Total);
-      const t4ShareSum = pkShare + bepShare + thoShare + tkShare;
-      setText('t4-share-breakdown', fmt(t4ShareSum), t4ShareSum);
+      // T4 WC
+      const wc4 = sectionTotal('wc4');
+      setText('wc4-total',        fmt(wc4), wc4);
+      setText('wc4-total-header', fmt(wc4), wc4);
 
-      // Grand total (T3 + T4 + T2/bố mẹ share)
-      const t2Share = pkShare + bepShare + thoShare + tkShare;
-      const grand = myTotal + t4Total + t2Share;
+      // T4 total
+      const sharedPer3 = pkShare + bepShare + thoShare + tkShare;
+      const t4Total = ng + wc4 + sharedPer3;
+      setText('t4-total', fmt(t4Total), t4Total);
+      setText('t4-share-breakdown', fmt(sharedPer3), sharedPer3);
+
+      // T2 total
+      setText('t2-total',         fmt(sharedPer3), sharedPer3);
+      setText('t2-share-display', fmt(sharedPer3), sharedPer3);
+
+      // Grand total
+      const grand = myTotal + t4Total + sharedPer3;
       setText('grand-total', fmt(grand), grand);
     }
 
