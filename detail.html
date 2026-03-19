@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Báo Giá Chi Tiết — Nhà Anh Huy</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: "Inter", sans-serif; }
+    .item-row { transition: opacity .2s; padding: 5px 0; }
+    .item-row.cut { opacity:.4; }
+    .btn-toggle { cursor:pointer; border-radius:9999px; font-size:11px; font-weight:600; padding:2px 9px; border:1.5px solid; transition:all .15s; user-select:none; white-space:nowrap; flex-shrink:0; }
+    .btn-keep  { background:#dcfce7; color:#166534; border-color:#86efac; }
+    .btn-cut   { background:#fee2e2; color:#991b1b; border-color:#fca5a5; }
+    .btn-buy   { background:#dbeafe; color:#1e40af; border-color:#93c5fd; }
+    .btn-must-pill { font-size:10px; font-weight:700; padding:2px 8px; border-radius:9999px; background:#fef9c3; color:#854d0e; border:1.5px solid #fde047; white-space:nowrap; flex-shrink:0; }
+    .state-keep .price-val { color:#166534; }
+    .state-cut  .price-val { color:#9ca3af; text-decoration:line-through; }
+    .state-buy  .price-val { color:#1e40af; }
+    .disc-row { display:none; margin-top:3px; padding-left:2px; gap:4px; flex-wrap:wrap; align-items:center; }
+    .state-buy .disc-row { display:flex; }
+    .disc-pill { cursor:pointer; font-size:10px; font-weight:700; padding:2px 7px; border-radius:9999px; border:1.5px solid #bfdbfe; background:#eff6ff; color:#1e40af; transition:all .15s; user-select:none; }
+    .disc-pill:hover { background:#dbeafe; }
+    .disc-pill.active { background:#1e40af; color:#fff; border-color:#1e40af; }
+    .disc-orig { font-size:10px; color:#9ca3af; text-decoration:line-through; margin-left:4px; }
+    .disc-effective { font-size:10px; color:#1e40af; font-weight:700; margin-left:2px; }
+    @keyframes flashGreen { 0%{background:#dcfce7;} 100%{background:transparent;} }
+    @keyframes flashRed   { 0%{background:#fee2e2;} 100%{background:transparent;} }
+    .flash-green { animation: flashGreen .6s ease-out; }
+    .flash-red   { animation: flashRed   .6s ease-out; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <div class="max-w-2xl mx-auto px-4 py-6 space-y-4">
+
+    <div class="bg-amber-50 border border-amber-200 rounded-2xl p-5">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-xl font-bold text-amber-900">Báo Giá Chi Tiết</h1>
+          <p class="text-sm text-amber-700 mt-0.5">Tất cả hạng mục · Có thể toggle từng dòng</p>
+        </div>
+        <a href="index.html" class="text-xs text-amber-600 underline">← Xem bản gia đình</a>
+      </div>
+    </div>
+
+
+    <section>
+      <div class="flex items-center gap-3 mb-2">
+        <div class="w-1 h-7 bg-gray-400 rounded"></div>
+        <div class="flex-1 min-w-0">
+          <h2 class="text-sm font-bold">Tầng 2 — Phá Dỡ</h2>
+          <p class="text-xs text-gray-400">Dùng chung ÷3 · Bắt buộc</p>
+        </div>
+        <span class="ml-auto text-xs font-semibold text-gray-400">÷3: <span class="text-amber-700 font-bold" id="phadot2-share">...</span></span>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-1">
+        <div class="item-row state-must" data-price="1200000" data-section="phadot2" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Tháo dỡ cửa gỗ cửa chính<span class="text-gray-400 text-xs block mt-0.5">bộ ×1</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">1,200,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="2400000" data-section="phadot2" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Tháo dỡ hệ tủ bếp cũ<span class="text-gray-400 text-xs block mt-0.5">tủ bếp + kính ốp bếp + gạch men ốp tường cũ</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">2,400,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="360000" data-section="phadot2" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Tháo dỡ hệ tủ trang trí phòng khách</span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">360,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="480000" data-section="phadot2" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Cắt + phá dỡ bậu tường cửa liền vách 1000×600mm</span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">480,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="300000" data-section="phadot2" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Cắt đục chân tường cửa</span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">300,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="900000" data-section="phadot2" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Ốp gạch thẻ bếp (nhân công + vật tư phụ)</span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">900,000đ</span>
+          </div>
+        </div>
+        <div class="border-t pt-2 mt-2">
+          <div class="flex justify-between text-xs font-bold text-amber-700"><span>Tổng mục</span><span id="phadot2-total" class="tabular-nums">...</span></div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="flex items-center gap-3 mb-2">
+        <div class="w-1 h-7 bg-amber-500 rounded"></div>
+        <div class="flex-1 min-w-0">
+          <h2 class="text-sm font-bold">Tầng 3 — WC Thô</h2>
+          <p class="text-xs text-gray-400">T3 tự trả · Bắt buộc</p>
+        </div>
+        <span class="ml-auto text-base font-bold text-amber-700" id="thot3-total-hdr">...</span>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-1">
+        <div class="item-row state-must" data-price="360000" data-section="thot3" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Tháo dỡ thiết bị vệ sinh cũ</span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">360,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="3225000" data-section="thot3" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Dóc vữa và gạch ốp lát sàn/tường WC cũ<span class="text-gray-400 text-xs block mt-0.5">17.9 m²</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">3,225,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="5370000" data-section="thot3" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Trát + láng lại tường vệ sinh<span class="text-gray-400 text-xs block mt-0.5">17.9 m² · vật tư + nhân công</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">5,370,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="673200" data-section="thot3" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Trát cầm cạnh cửa</span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">673,200đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="6616000" data-section="thot3" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Vật tư gạch ốp lát<span class="text-gray-400 text-xs block mt-0.5">19.69 m² × 336k · thanh toán theo hóa đơn</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">6,616,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="4200000" data-section="thot3" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Chống thấm Sika (2 thành phần)<span class="text-gray-400 text-xs block mt-0.5">Cổ ống + quét mặt sàn</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">4,200,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="5370000" data-section="thot3" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Ốp + lát gạch (nhân công + vật tư phụ)<span class="text-gray-400 text-xs block mt-0.5">17.9 m²</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">5,370,000đ</span>
+          </div>
+        </div>
+        <div class="border-t pt-2 mt-2">
+          <div class="flex justify-between text-xs font-bold text-amber-700"><span>Tổng mục</span><span id="thot3-total" class="tabular-nums">...</span></div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="flex items-center gap-3 mb-2">
+        <div class="w-1 h-7 bg-gray-500 rounded"></div>
+        <div class="flex-1 min-w-0">
+          <h2 class="text-sm font-bold">Tầng 4 — WC Thô</h2>
+          <p class="text-xs text-gray-400">T4 tự trả · Bắt buộc</p>
+        </div>
+        <span class="ml-auto text-base font-bold text-amber-700" id="thot4-total-hdr">...</span>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-1">
+        <div class="item-row state-must" data-price="360000" data-section="thot4" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Tháo dỡ thiết bị vệ sinh cũ</span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">360,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="480000" data-section="thot4" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Tháo dỡ cửa cũ<span class="text-gray-400 text-xs block mt-0.5">2 bộ</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">480,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="3225000" data-section="thot4" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Dóc vữa và gạch ốp lát sàn/tường WC cũ<span class="text-gray-400 text-xs block mt-0.5">17.9 m²</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">3,225,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="960000" data-section="thot4" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Xây két xí âm vệ sinh</span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">960,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="7160000" data-section="thot4" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Vật tư gạch ốp lát tiêu chuẩn<span class="text-gray-400 text-xs block mt-0.5">17.9 m² × 400k</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">7,160,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="4157000" data-section="thot4" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Vật tư gạch giả thẻ 400×800<span class="text-gray-400 text-xs block mt-0.5">8.66 m² × 480k</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">4,157,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="5370000" data-section="thot4" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Trát + láng lại tường vệ sinh<span class="text-gray-400 text-xs block mt-0.5">17.9 m²</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">5,370,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="675000" data-section="thot4" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Trát cầm cạnh cửa</span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">675,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="4200000" data-section="thot4" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Chống thấm Sika (2 thành phần)</span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">4,200,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="6367200" data-section="thot4" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Ốp + lát gạch tiêu chuẩn (nhân công)<span class="text-gray-400 text-xs block mt-0.5">18.95 m² × 336k</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">6,367,200đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="2400000" data-section="thot4" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Ốp gạch thẻ điểm nhấn (nhân công)</span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">2,400,000đ</span>
+          </div>
+        </div>
+        <div class="border-t pt-2 mt-2">
+          <div class="flex justify-between text-xs font-bold text-amber-700"><span>Tổng mục</span><span id="thot4-total" class="tabular-nums">...</span></div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="flex items-center gap-3 mb-2">
+        <div class="w-1 h-7 bg-blue-400 rounded"></div>
+        <div class="flex-1 min-w-0">
+          <h2 class="text-sm font-bold">Điện Nước (MEP)</h2>
+          <p class="text-xs text-gray-400">Dùng chung ÷3 · Bắt buộc</p>
+        </div>
+        <span class="ml-auto text-xs font-semibold text-gray-400">÷3: <span class="text-amber-700 font-bold" id="mep-share">...</span></span>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-1">
+        <div class="item-row state-must" data-price="10800000" data-section="mep" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Nhân công lắp điện toàn nhà<span class="text-gray-400 text-xs block mt-0.5">WC T3+T4 + bếp T2 + phòng ngủ T4</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">10,800,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="9600000" data-section="mep" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Vật tư điện thô (tạm tính)<span class="text-gray-400 text-xs block mt-0.5">Dây Trần Phú, ổ cắm Panasonic — CĐT có thể tự cung cấp</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">9,600,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="11400000" data-section="mep" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Nhân công cấp thoát nước WC T3+T4 + bếp<span class="text-gray-400 text-xs block mt-0.5">2.5 khu × 4,560k</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">11,400,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="1800000" data-section="mep" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Nhân công đấu nối xí bệt treo tường T4</span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">1,800,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="12000000" data-section="mep" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Vật tư ống nước + phụ kiện<span class="text-gray-400 text-xs block mt-0.5">2.5 khu × 4,800k · không bao gồm thiết bị đầu cuối</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">12,000,000đ</span>
+          </div>
+        </div>
+        <div class="border-t pt-2 mt-2">
+          <div class="flex justify-between text-xs font-bold text-amber-700"><span>Tổng mục</span><span id="mep-total" class="tabular-nums">...</span></div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="flex items-center gap-3 mb-2">
+        <div class="w-1 h-7 bg-purple-400 rounded"></div>
+        <div class="flex-1 min-w-0">
+          <h2 class="text-sm font-bold">Thạch Cao + Sơn</h2>
+          <p class="text-xs text-gray-400">Dùng chung ÷3</p>
+        </div>
+        <span class="ml-auto text-xs font-semibold text-gray-400">÷3: <span class="text-amber-700 font-bold" id="thaoson-share">...</span></span>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-1">
+        <div class="item-row state-keep" data-price="4105500" data-section="thaoson" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Trần thạch cao thường (P.ngủ T4 + hành lang T2,T4)<span class="text-gray-400 text-xs block mt-0.5">13.69 m² · Gyproc Thái Lan 9mm · khung Vĩnh Tường</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">4,105,500đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="item-row state-keep" data-price="360000" data-section="thaoson" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Trần thạch cao chống ẩm WC T3+T4<span class="text-gray-400 text-xs block mt-0.5">Gyproc chống ẩm 9mm</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">360,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="item-row state-keep" data-price="840000" data-section="thaoson" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Tấm thăm trần chống ẩm 45×45cm (WC T3+T4)<span class="text-gray-400 text-xs block mt-0.5">2 cái × 420k</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">840,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="item-row state-keep" data-price="806400" data-section="thaoson" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Thanh nẹp Z trần WC T3+T4<span class="text-gray-400 text-xs block mt-0.5">13.44m</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">806,400đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="item-row state-keep" data-price="3457000" data-section="thaoson" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Sơn bả trần thạch cao<span class="text-gray-400 text-xs block mt-0.5">28.8 m² · Dulux EasyClean</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">3,457,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="item-row state-keep" data-price="9000000" data-section="thaoson" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Sơn lại tường trong nhà<span class="text-gray-400 text-xs block mt-0.5">100 m² (tạm tính) · Dulux EasyClean</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">9,000,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="border-t pt-2 mt-2">
+          <div class="flex justify-between text-xs font-bold text-amber-700"><span>Tổng mục</span><span id="thaoson-total" class="tabular-nums">...</span></div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="flex items-center gap-3 mb-2">
+        <div class="w-1 h-7 bg-cyan-400 rounded"></div>
+        <div class="flex-1 min-w-0">
+          <h2 class="text-sm font-bold">Nhôm Kính</h2>
+          <p class="text-xs text-gray-400">Cửa lùa ÷3 · Cửa WC/phòng ngủ T3/T4 tự trả</p>
+        </div>
+        <span class="ml-auto text-base font-bold text-amber-700" id="nhomkinh-total-hdr">...</span>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-1">
+        <div class="item-row state-keep" data-price="25614000" data-section="nk_shared" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Cửa lùa hệ Slim 4 cánh — phòng khách T2<span class="text-gray-400 text-xs block mt-0.5">5.54m × 4,625k · Nhôm Slim 1.6mm + kính cường lực 8mm · Giai đoạn 2</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">25,614,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="item-row state-keep" data-price="5400000" data-section="nk_shared" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Phụ kiện cửa lùa (ray, bộ trượt, tay nắm âm)<span class="text-gray-400 text-xs block mt-0.5">Draho, Kinlong · Giai đoạn 2</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">5,400,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="item-row state-keep" data-price="5400000" data-section="nk_t3" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Cửa WC T3 composite 700×2200mm<span class="text-gray-400 text-xs block mt-0.5">WPC 40mm · chống nước, chống mối mọt · gioăng giảm chấn + 3 bản lề</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">5,400,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="item-row state-keep" data-price="5400000" data-section="nk_t4" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Cửa WC T4 composite 700×2200mm<span class="text-gray-400 text-xs block mt-0.5">WPC 40mm · chống nước, chống mối mọt</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">5,400,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="item-row state-keep" data-price="5760000" data-section="nk_t4" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Cửa phòng ngủ T4 composite 850×2200mm<span class="text-gray-400 text-xs block mt-0.5">WPC 40mm</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">5,760,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="border-t pt-2 mt-2">
+          <div class="flex justify-between text-xs font-bold text-amber-700"><span>Tổng mục</span><span id="nhomkinh-total" class="tabular-nums">...</span></div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="flex items-center gap-3 mb-2">
+        <div class="w-1 h-7 bg-amber-400 rounded"></div>
+        <div class="flex-1 min-w-0">
+          <h2 class="text-sm font-bold">Phòng Khách T2</h2>
+          <p class="text-xs text-gray-400">Dùng chung ÷3</p>
+        </div>
+        <span class="ml-auto text-xs font-semibold text-gray-400">÷3: <span class="text-amber-700 font-bold" id="pk-share">...</span></span>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-1">
+        <div class="item-row state-keep" data-price="5976000" data-section="pk" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Kệ tivi</span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">5,976,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Kệ tivi MDF melamine Thái Lan<span class="text-gray-400 text-xs block">2.5m × 0.33 × 0.38</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">5,400,000đ</span>
+          </div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Ray ngăn kéo eurogold<span class="text-gray-400 text-xs block">4 bộ × 144k</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">576,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-keep" data-price="8799000" data-section="pk" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Vách ốp tivi<span class="text-gray-400 text-xs block mt-0.5">Vách phẳng + nan gỗ MDF melamine · 6.67 m²</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">8,799,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="item-row state-keep" data-price="3744000" data-section="pk" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Tủ đặt bể cá</span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">3,744,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Tủ MDF melamine Thái Lan<span class="text-gray-400 text-xs block">0.65×0.35×0.68</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">3,600,000đ</span>
+          </div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Bản lề giảm chấn Blum<span class="text-gray-400 text-xs block">4 cái × 36k</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">144,000đ</span>
+          </div>
+        </div>
+        <div class="border-t pt-2 mt-2">
+          <div class="flex justify-between text-xs font-bold text-amber-700"><span>Tổng mục</span><span id="pk-total" class="tabular-nums">...</span></div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="flex items-center gap-3 mb-2">
+        <div class="w-1 h-7 bg-orange-400 rounded"></div>
+        <div class="flex-1 min-w-0">
+          <h2 class="text-sm font-bold">Phòng Bếp T2</h2>
+          <p class="text-xs text-gray-400">Dùng chung ÷3</p>
+        </div>
+        <span class="ml-auto text-xs font-semibold text-gray-400">÷3: <span class="text-amber-700 font-bold" id="bep-share">...</span></span>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-1">
+        <div class="item-row state-keep" data-price="9510000" data-section="bep" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Tủ bếp dưới + đá mặt bếp</span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">9,510,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Tủ bếp dưới MDF melamine<span class="text-gray-400 text-xs block">3m × 0.6 × 0.85 · thùng chậu rửa bọc picomat</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">8,286,000đ</span>
+          </div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Bản lề giảm chấn Kithome<span class="text-gray-400 text-xs block">6 cái × 54k</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">324,000đ</span>
+          </div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Ray ngăn kéo eurogold<span class="text-gray-400 text-xs block">1 bộ × 144k</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">144,000đ</span>
+          </div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Đá mặt bếp thạch anh nhân tạo<span class="text-gray-400 text-xs block">3md × 252k</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">756,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-keep" data-price="10310000" data-section="bep" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Tủ bếp trên</span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">10,310,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Tủ bếp trên MDF + laminate kim loại<span class="text-gray-400 text-xs block">3.25m × 0.35 × 1.25</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">7,610,000đ</span>
+          </div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Bản lề giảm chấn Kithome<span class="text-gray-400 text-xs block">20 cái × 54k</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">1,080,000đ</span>
+          </div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Pittong trợ lực eurogold<span class="text-gray-400 text-xs block">6 cái × 84k</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">504,000đ</span>
+          </div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Đèn LED thanh nhôm<span class="text-gray-400 text-xs block">3.5md × 216k</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">756,000đ</span>
+          </div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Nguồn chuyển 220v→12v<span class="text-gray-400 text-xs block">1 cái</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">180,000đ</span>
+          </div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Cảm biến vẫy/chạm<span class="text-gray-400 text-xs block">1 cái</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">180,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-keep" data-price="3671000" data-section="bep" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Hệ tủ lạnh</span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">3,671,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Tủ lạnh MDF melamine<span class="text-gray-400 text-xs block">0.69×0.6×2.7 = 1.86 m²</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">3,455,000đ</span>
+          </div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Bản lề giảm chấn Kithome<span class="text-gray-400 text-xs block">4 cái × 54k</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">216,000đ</span>
+          </div>
+        </div>
+        <div class="border-t pt-2 mt-2">
+          <div class="flex justify-between text-xs font-bold text-amber-700"><span>Tổng mục</span><span id="bep-total" class="tabular-nums">...</span></div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="flex items-center gap-3 mb-2">
+        <div class="w-1 h-7 bg-amber-400 rounded"></div>
+        <div class="flex-1 min-w-0">
+          <h2 class="text-sm font-bold">WC T3 — Thiết Bị & Nội Thất</h2>
+          <p class="text-xs text-gray-400">T3 tự trả</p>
+        </div>
+        <span class="ml-auto text-base font-bold text-amber-700" id="wc3fix-total-hdr">...</span>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-1">
+        <div class="item-row state-keep" data-price="2028000" data-section="wc3fix" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Đèn trần WC<span class="text-gray-400 text-xs block mt-0.5">13 bộ × 156k</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">2,028,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="item-row state-keep" data-price="2268000" data-section="wc3fix" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Kệ tủ nhỏ trên bồn cầu<span class="text-gray-400 text-xs block mt-0.5">0.54 m² × 4,200k</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">2,268,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="item-row state-keep" data-price="7560000" data-section="wc3fix" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Tủ trên bồn cầu<span class="text-gray-400 text-xs block mt-0.5">1.8 m² × 4,200k</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">7,560,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="item-row state-keep" data-price="7200000" data-section="wc3fix" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Phụ kiện vệ sinh<span class="text-gray-400 text-xs block mt-0.5">CĐT chọn nhà cung cấp</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">7,200,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="item-row state-keep" data-price="9500000" data-section="wc3fix" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Bồn cầu âm tường DeMuhler ML361001<span class="text-gray-400 text-xs block mt-0.5">CĐT chọn nhà cung cấp</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">9,500,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="item-row state-keep" data-price="2500000" data-section="wc3fix" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Chậu rửa INAX L-333V bán âm<span class="text-gray-400 text-xs block mt-0.5">CĐT chọn nhà cung cấp</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">2,500,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="item-row state-keep" data-price="2148000" data-section="wc3fix" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Bình nóng lạnh 20L Rossi<span class="text-gray-400 text-xs block mt-0.5">CĐT chọn nhà cung cấp</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">2,148,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="border-t pt-2 mt-2">
+          <div class="flex justify-between text-xs font-bold text-amber-700"><span>Tổng mục</span><span id="wc3fix-total" class="tabular-nums">...</span></div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="flex items-center gap-3 mb-2">
+        <div class="w-1 h-7 bg-gray-400 rounded"></div>
+        <div class="flex-1 min-w-0">
+          <h2 class="text-sm font-bold">WC T4 — Thiết Bị & Nội Thất</h2>
+          <p class="text-xs text-gray-400">T4 tự trả</p>
+        </div>
+        <span class="ml-auto text-base font-bold text-amber-700" id="wc4fix-total-hdr">...</span>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-1">
+        <div class="item-row state-keep" data-price="2028000" data-section="wc4fix" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Đèn trần WC<span class="text-gray-400 text-xs block mt-0.5">13 bộ × 156k</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">2,028,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="item-row state-keep" data-price="2268000" data-section="wc4fix" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Kệ tủ nhỏ trên bồn cầu<span class="text-gray-400 text-xs block mt-0.5">0.54 m² × 4,200k</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">2,268,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="item-row state-keep" data-price="7560000" data-section="wc4fix" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Tủ trên bồn cầu<span class="text-gray-400 text-xs block mt-0.5">1.8 m² × 4,200k</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">7,560,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="item-row state-keep" data-price="7200000" data-section="wc4fix" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Phụ kiện vệ sinh<span class="text-gray-400 text-xs block mt-0.5">CĐT chọn nhà cung cấp</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">7,200,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="item-row state-keep" data-price="9500000" data-section="wc4fix" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Bồn cầu âm tường DeMuhler ML361001<span class="text-gray-400 text-xs block mt-0.5">CĐT chọn nhà cung cấp</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">9,500,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="item-row state-keep" data-price="2500000" data-section="wc4fix" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Chậu rửa INAX L-333V bán âm<span class="text-gray-400 text-xs block mt-0.5">CĐT chọn nhà cung cấp</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">2,500,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="item-row state-keep" data-price="2148000" data-section="wc4fix" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Bình nóng lạnh 20L Rossi<span class="text-gray-400 text-xs block mt-0.5">CĐT chọn nhà cung cấp</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">2,148,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="border-t pt-2 mt-2">
+          <div class="flex justify-between text-xs font-bold text-amber-700"><span>Tổng mục</span><span id="wc4fix-total" class="tabular-nums">...</span></div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="flex items-center gap-3 mb-2">
+        <div class="w-1 h-7 bg-gray-500 rounded"></div>
+        <div class="flex-1 min-w-0">
+          <h2 class="text-sm font-bold">Phòng Ngủ T4</h2>
+          <p class="text-xs text-gray-400">T4 tự trả</p>
+        </div>
+        <span class="ml-auto text-base font-bold text-amber-700" id="ng-total-hdr">...</span>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-1">
+        <div class="item-row state-keep" data-price="11539000" data-section="ng" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Vách ốp đầu giường</span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">11,539,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Vách ốp phẳng MDF melamine<span class="text-gray-400 text-xs block">7.62 m²</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">8,687,000đ</span>
+          </div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Vách nan gỗ MDF melamine<span class="text-gray-400 text-xs block">2.16 m²</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">2,852,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-keep" data-price="12841000" data-section="ng" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Tủ quần áo</span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">12,841,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Tủ quần áo MDF cánh pano melamine<span class="text-gray-400 text-xs block">1.6×0.5×2.68 = 4.29 m²</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">10,549,000đ</span>
+          </div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Tay nắm hợp kim vàng bóng<span class="text-gray-400 text-xs block">8 cái × 72k</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">576,000đ</span>
+          </div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Bản lề giảm chấn Blum<span class="text-gray-400 text-xs block">28 cái × 36k</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">1,008,000đ</span>
+          </div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Pittong trợ lực eurogold<span class="text-gray-400 text-xs block">4 cái × 96k</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">384,000đ</span>
+          </div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Đèn LED thanh nhôm<span class="text-gray-400 text-xs block">1.5md × 216k</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">324,000đ</span>
+          </div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Nguồn chuyển 220v→12v<span class="text-gray-400 text-xs block">1 cái</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">180,000đ</span>
+          </div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Cảm biến vẫy/chạm<span class="text-gray-400 text-xs block">1 cái</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">180,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-keep" data-price="25381000" data-section="ng" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Hệ tủ tivi + trang trí + bàn phấn</span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">25,381,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Hệ tủ tivi + trang trí + bàn phấn MDF<span class="text-gray-400 text-xs block">3.15×0.45×2.68 = 8.44 m²</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">20,768,000đ</span>
+          </div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Tay nắm hợp kim vàng bóng<span class="text-gray-400 text-xs block">13 cái × 72k</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">936,000đ</span>
+          </div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Bản lề giảm chấn Blum<span class="text-gray-400 text-xs block">27 cái × 36k</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">972,000đ</span>
+          </div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Ray ngăn kéo eurogold<span class="text-gray-400 text-xs block">4 bộ × 144k</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">576,000đ</span>
+          </div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Pittong trợ lực eurogold<span class="text-gray-400 text-xs block">2 cái × 96k</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">192,000đ</span>
+          </div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Đèn LED thanh nhôm<span class="text-gray-400 text-xs block">7.3md</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">1,577,000đ</span>
+          </div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Nguồn chuyển 220v→12v<span class="text-gray-400 text-xs block">1 cái</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">180,000đ</span>
+          </div>
+          <div class="sub-row flex items-start gap-2 py-1 pl-4 border-l-2 border-gray-100 ml-2">
+            <span class="flex-1 text-gray-600 text-xs">Cảm biến vẫy/chạm<span class="text-gray-400 text-xs block">1 cái</span></span>
+            <span class="text-gray-500 text-xs tabular-nums shrink-0">180,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-keep" data-price="4200000" data-section="ng" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Gương LED (0.8×0.9m, viền gỗ MDF)</span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">4,200,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="item-row state-keep" data-price="3600000" data-section="ng" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Vận chuyển nội thất</span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">3,600,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="border-t pt-2 mt-2">
+          <div class="flex justify-between text-xs font-bold text-amber-700"><span>Tổng mục</span><span id="ng-total" class="tabular-nums">...</span></div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="flex items-center gap-3 mb-2">
+        <div class="w-1 h-7 bg-gray-400 rounded"></div>
+        <div class="flex-1 min-w-0">
+          <h2 class="text-sm font-bold">Phần Khác</h2>
+          <p class="text-xs text-gray-400">T4 tự trả</p>
+        </div>
+        <span class="ml-auto text-base font-bold text-amber-700" id="khac-total-hdr">...</span>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-1">
+        <div class="item-row state-keep" data-price="2496000" data-section="khac" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">Sàn gỗ nhựa phòng ngủ T4<span class="text-gray-400 text-xs block mt-0.5">13 m² × 192k</span></span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">2,496,000đ</span>
+          </div>
+            <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+        </div>
+        <div class="border-t pt-2 mt-2">
+          <div class="flex justify-between text-xs font-bold text-amber-700"><span>Tổng mục</span><span id="khac-total" class="tabular-nums">...</span></div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="flex items-center gap-3 mb-2">
+        <div class="w-1 h-7 bg-rose-400 rounded"></div>
+        <div class="flex-1 min-w-0">
+          <h2 class="text-sm font-bold">Phí Thiết Kế</h2>
+          <p class="text-xs text-gray-400">Dùng chung ÷3 · Bắt buộc</p>
+        </div>
+        <span class="ml-auto text-xs font-semibold text-gray-400">÷3: <span class="text-amber-700 font-bold" id="thietke-share">...</span></span>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-1">
+        <div class="item-row state-must" data-price="13629000" data-section="thietke" data-state="keep" data-disc="0">
+          <div class="flex items-center gap-2">
+            <span class="btn-must-pill">Bắt buộc</span>
+            <span class="flex-1 font-medium text-sm">Phí thiết kế nội thất (sau giảm 30%)</span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">13,629,000đ</span>
+          </div>
+        </div>
+        <div class="border-t pt-2 mt-2">
+          <div class="flex justify-between text-xs font-bold text-amber-700"><span>Tổng mục</span><span id="thietke-total" class="tabular-nums">...</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Summary -->
+    <section>
+      <div class="flex items-center gap-3 mb-2">
+        <div class="w-1 h-7 bg-gray-800 rounded"></div>
+        <h2 class="text-sm font-bold">Tổng kết</h2>
+      </div>
+      <div class="grid sm:grid-cols-3 gap-3 mb-3">
+        <div class="bg-white rounded-2xl border-2 border-amber-400 p-4">
+          <p class="text-xs font-bold text-amber-600 uppercase mb-1">T3</p>
+          <p class="text-2xl font-bold mb-2" id="summary-t3">...</p>
+          <div class="space-y-0.5 text-xs text-gray-400" id="summary-t3-bd"></div>
+        </div>
+        <div class="bg-white rounded-2xl border border-gray-100 p-4">
+          <p class="text-xs font-bold text-gray-400 uppercase mb-1">T4</p>
+          <p class="text-2xl font-bold mb-2" id="summary-t4">...</p>
+          <div class="space-y-0.5 text-xs text-gray-400" id="summary-t4-bd"></div>
+        </div>
+        <div class="bg-white rounded-2xl border border-gray-100 p-4">
+          <p class="text-xs font-bold text-gray-400 uppercase mb-1">T2</p>
+          <p class="text-2xl font-bold mb-2" id="summary-t2">...</p>
+          <p class="text-xs text-gray-400">Phần chung ÷3</p>
+        </div>
+      </div>
+      <div class="bg-gray-900 text-white rounded-2xl p-5">
+        <p class="text-xs text-gray-400 mb-1">Grand Total</p>
+        <p class="text-3xl font-bold" id="grand-total">...</p>
+      </div>
+    </section>
+
+    <!-- Save/Load -->
+    <section class="bg-white border border-gray-200 rounded-2xl p-4">
+      <h3 class="font-bold text-gray-800 mb-3 text-sm">Lưu / Tải trạng thái</h3>
+      <div class="flex gap-2">
+        <button onclick="saveJSON()" class="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-xl">Lưu JSON</button>
+        <label class="cursor-pointer bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-sm font-semibold px-4 py-2 rounded-xl">
+          Tải JSON<input type="file" accept=".json" onchange="loadJSON(event)" class="hidden" />
+        </label>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    const fmt = n => Math.round(n).toLocaleString("vi-VN") + "đ";
+    const prevVals = {};
+
+    function setText(id, val, numeric) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const prev = prevVals[id];
+      prevVals[id] = numeric;
+      el.textContent = val;
+      el.classList.remove("flash-green","flash-red");
+      void el.offsetWidth;
+      if (prev !== undefined && numeric !== undefined && numeric !== prev)
+        el.classList.add(numeric < prev ? "flash-green" : "flash-red");
+    }
+
+    function cycleState(btn) {
+      const row = btn.closest(".item-row");
+      const states = ["keep","buy","cut"];
+      const labels = ["Giữ","Tự mua","Cắt"];
+      const cls    = ["btn-keep","btn-buy","btn-cut"];
+      let idx = states.indexOf(row.dataset.state);
+      idx = (idx + 1) % 3;
+      row.dataset.state = states[idx];
+      row.className = row.className.replace(/state-\w+/, "state-" + states[idx]);
+      btn.className = btn.className.replace(/btn-\w+/, cls[idx]);
+      btn.textContent = labels[idx];
+      if (states[idx] !== "buy") {
+        row.dataset.disc = "0";
+        row.querySelectorAll(".disc-pill").forEach(p => p.classList.remove("active"));
+        const o = row.querySelector(".disc-orig"), e = row.querySelector(".disc-effective");
+        if (o) o.textContent = ""; if (e) e.textContent = "";
+        const pv = row.querySelector(".price-val");
+        if (pv) pv.textContent = fmt(+row.dataset.price);
+      }
+      recalc();
+    }
+
+    function setDisc(pill, pct) {
+      const row = pill.closest(".item-row");
+      const base = +row.dataset.price;
+      const cur  = +row.dataset.disc;
+      if (cur === pct) { pct = 0; pill.classList.remove("active"); }
+      else { row.querySelectorAll(".disc-pill").forEach(p => p.classList.remove("active")); pill.classList.add("active"); }
+      row.dataset.disc = pct;
+      const eff = base * (1 - pct/100);
+      const pv = row.querySelector(".price-val"), o = row.querySelector(".disc-orig"), e = row.querySelector(".disc-effective");
+      if (pct > 0) {
+        if (pv) pv.textContent = fmt(eff);
+        if (o)  o.textContent  = fmt(base);
+        if (e)  e.textContent  = "-" + pct + "%";
+      } else {
+        if (pv) pv.textContent = fmt(base);
+        if (o)  o.textContent  = "";
+        if (e)  e.textContent  = "";
+      }
+      recalc();
+    }
+
+    function sectionTotal(sec) {
+      let t = 0;
+      document.querySelectorAll(`[data-section="${sec}"]`).forEach(row => {
+        if (row.dataset.state === "cut") return;
+        t += +row.dataset.price * (1 - (+row.dataset.disc||0)/100);
+      });
+      return t;
+    }
+
+    function recalc() {
+      const phadot2 = sectionTotal("phadot2");
+      const mep     = sectionTotal("mep");
+      const thaoson = sectionTotal("thaoson");
+      const nk_sh   = sectionTotal("nk_shared");
+      const pk      = sectionTotal("pk");
+      const bep     = sectionTotal("bep");
+      const thietke = sectionTotal("thietke");
+      const shared  = phadot2 + mep + thaoson + nk_sh + pk + bep + thietke;
+      const per3    = shared / 3;
+
+      const thot3  = sectionTotal("thot3");
+      const nk_t3  = sectionTotal("nk_t3");
+      const wc3fix = sectionTotal("wc3fix");
+      const t3     = thot3 + nk_t3 + wc3fix + per3;
+
+      const thot4  = sectionTotal("thot4");
+      const nk_t4  = sectionTotal("nk_t4");
+      const wc4fix = sectionTotal("wc4fix");
+      const ng     = sectionTotal("ng");
+      const khac   = sectionTotal("khac");
+      const t4     = thot4 + nk_t4 + wc4fix + ng + khac + per3;
+
+      // Section totals
+      setText("phadot2-total", fmt(phadot2), phadot2); setText("phadot2-share", fmt(phadot2/3), phadot2/3);
+      setText("thot3-total",   fmt(thot3), thot3);
+      setText("thot4-total",   fmt(thot4), thot4);
+      setText("mep-total",     fmt(mep), mep);     setText("mep-share", fmt(mep/3), mep/3);
+      setText("thaoson-total", fmt(thaoson), thaoson); setText("thaoson-share", fmt(thaoson/3), thaoson/3);
+      const nk_all = nk_sh + nk_t3 + nk_t4;
+      setText("nhomkinh-total", fmt(nk_all), nk_all);
+      setText("pk-total",  fmt(pk), pk);   setText("pk-share",  fmt(pk/3), pk/3);
+      setText("bep-total", fmt(bep), bep); setText("bep-share", fmt(bep/3), bep/3);
+      setText("wc3fix-total", fmt(wc3fix), wc3fix);
+      setText("wc4fix-total", fmt(wc4fix), wc4fix);
+      setText("ng-total",    fmt(ng), ng);
+      setText("khac-total",  fmt(khac), khac);
+      setText("thietke-total", fmt(thietke), thietke); setText("thietke-share", fmt(thietke/3), thietke/3);
+
+      setText("summary-t3", fmt(t3), t3);
+      setText("summary-t4", fmt(t4), t4);
+      setText("summary-t2", fmt(per3), per3);
+
+      document.getElementById("summary-t3-bd").innerHTML =
+        `<div class="flex justify-between"><span>WC thô</span><span>${fmt(thot3)}</span></div>
+         <div class="flex justify-between"><span>Cửa WC T3</span><span>${fmt(nk_t3)}</span></div>
+         <div class="flex justify-between"><span>WC thiết bị</span><span>${fmt(wc3fix)}</span></div>
+         <div class="flex justify-between"><span>Phần chung ÷3</span><span>${fmt(per3)}</span></div>`;
+
+      document.getElementById("summary-t4-bd").innerHTML =
+        `<div class="flex justify-between"><span>WC thô</span><span>${fmt(thot4)}</span></div>
+         <div class="flex justify-between"><span>Cửa WC+P.ngủ T4</span><span>${fmt(nk_t4)}</span></div>
+         <div class="flex justify-between"><span>WC thiết bị</span><span>${fmt(wc4fix)}</span></div>
+         <div class="flex justify-between"><span>Phòng ngủ + khác</span><span>${fmt(ng+khac)}</span></div>
+         <div class="flex justify-between"><span>Phần chung ÷3</span><span>${fmt(per3)}</span></div>`;
+
+      setText("grand-total", fmt(t3 + t4 + per3), t3 + t4 + per3);
+    }
+
+    function saveJSON() {
+      const state = {};
+      document.querySelectorAll(".item-row[data-section]").forEach((row, i) => {
+        state[(row.dataset.section||"x")+"_"+i] = {state: row.dataset.state, disc: row.dataset.disc};
+      });
+      const a = document.createElement("a");
+      a.href = "data:application/json," + encodeURIComponent(JSON.stringify(state, null, 2));
+      a.download = "bao-gia-detail.json"; a.click();
+    }
+
+    function loadJSON(event) {
+      const file = event.target.files[0]; if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        try {
+          const state = JSON.parse(e.target.result);
+          const rows = document.querySelectorAll(".item-row[data-section]");
+          rows.forEach((row, i) => {
+            const d = state[(row.dataset.section||"x")+"_"+i]; if (!d) return;
+            const labels = {keep:"Giữ", buy:"Tự mua", cut:"Cắt"};
+            const cls    = {keep:"btn-keep", buy:"btn-buy", cut:"btn-cut"};
+            row.dataset.state = d.state;
+            row.className = row.className.replace(/state-\w+/, "state-"+d.state);
+            const btn = row.querySelector(".btn-toggle");
+            if (btn) { btn.className = btn.className.replace(/btn-\w+/, cls[d.state]); btn.textContent = labels[d.state]; }
+            row.dataset.disc = d.disc;
+            if (+d.disc > 0) {
+              const pill = row.querySelector(`.disc-pill[onclick*="${d.disc}"]`);
+              if (pill) pill.classList.add("active");
+              const pv = row.querySelector(".price-val");
+              if (pv) pv.textContent = fmt(+row.dataset.price * (1 - d.disc/100));
+            }
+          });
+          recalc();
+        } catch(err) { alert("Lỗi đọc file JSON"); }
+      };
+      reader.readAsText(file);
+    }
+
+    window.addEventListener("DOMContentLoaded", recalc);
+  </script>
+</body>
+</html>
