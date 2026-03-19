@@ -52,7 +52,7 @@
           <h2 class="text-sm font-bold">Tầng 2 — Phá Dỡ</h2>
           <p class="text-xs text-gray-400">Dùng chung ÷3 · Bắt buộc</p>
         </div>
-        <span class="ml-auto text-xs font-semibold text-gray-400">÷3: <span class="text-amber-700 font-bold" id="phadot2-share">...</span></span>
+        </span>
       </div>
       <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-1">
         <div class="item-row state-must" data-price="1200000" data-section="phadot2" data-state="keep" data-disc="0">
@@ -265,7 +265,7 @@
           <h2 class="text-sm font-bold">Điện Nước (MEP)</h2>
           <p class="text-xs text-gray-400">Dùng chung ÷3 · Bắt buộc</p>
         </div>
-        <span class="ml-auto text-xs font-semibold text-gray-400">÷3: <span class="text-amber-700 font-bold" id="mep-share">...</span></span>
+        </span>
       </div>
       <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-1">
         <div class="item-row state-must" data-price="10800000" data-section="mep" data-state="keep" data-disc="0">
@@ -315,7 +315,7 @@
           <h2 class="text-sm font-bold">Thạch Cao + Sơn</h2>
           <p class="text-xs text-gray-400">Dùng chung ÷3</p>
         </div>
-        <span class="ml-auto text-xs font-semibold text-gray-400">÷3: <span class="text-amber-700 font-bold" id="thaoson-share">...</span></span>
+        </span>
       </div>
       <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-1">
         <div class="item-row state-keep" data-price="4105500" data-section="thaoson" data-state="keep" data-disc="0">
@@ -433,7 +433,7 @@
           <h2 class="text-sm font-bold">Phòng Khách T2</h2>
           <p class="text-xs text-gray-400">Dùng chung ÷3</p>
         </div>
-        <span class="ml-auto text-xs font-semibold text-gray-400">÷3: <span class="text-amber-700 font-bold" id="pk-share">...</span></span>
+        </span>
       </div>
       <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-1">
         <div class="item-row state-keep" data-price="5976000" data-section="pk" data-state="keep" data-disc="0">
@@ -488,7 +488,7 @@
           <h2 class="text-sm font-bold">Phòng Bếp T2</h2>
           <p class="text-xs text-gray-400">Dùng chung ÷3</p>
         </div>
-        <span class="ml-auto text-xs font-semibold text-gray-400">÷3: <span class="text-amber-700 font-bold" id="bep-share">...</span></span>
+        </span>
       </div>
       <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-1">
         <div class="item-row state-keep" data-price="9510000" data-section="bep" data-state="keep" data-disc="0">
@@ -863,7 +863,7 @@
           <h2 class="text-sm font-bold">Phí Thiết Kế</h2>
           <p class="text-xs text-gray-400">Dùng chung ÷3 · Bắt buộc</p>
         </div>
-        <span class="ml-auto text-xs font-semibold text-gray-400">÷3: <span class="text-amber-700 font-bold" id="thietke-share">...</span></span>
+        </span>
       </div>
       <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-1">
         <div class="item-row state-must" data-price="13629000" data-section="thietke" data-state="keep" data-disc="0">
@@ -886,20 +886,17 @@
         <h2 class="text-sm font-bold">Tổng kết</h2>
       </div>
       <div class="grid sm:grid-cols-3 gap-3 mb-3">
-        <div class="bg-white rounded-2xl border-2 border-amber-400 p-4">
-          <p class="text-xs font-bold text-amber-600 uppercase mb-1">T3</p>
-          <p class="text-2xl font-bold mb-2" id="summary-t3">...</p>
-          <div class="space-y-0.5 text-xs text-gray-400" id="summary-t3-bd"></div>
+        <div class="bg-white rounded-2xl border border-gray-100 p-4">
+          <p class="text-xs font-bold text-gray-500 uppercase mb-1">Tầng 2</p>
+          <p class="text-2xl font-bold" id="summary-t2">...</p>
         </div>
         <div class="bg-white rounded-2xl border border-gray-100 p-4">
-          <p class="text-xs font-bold text-gray-400 uppercase mb-1">T4</p>
-          <p class="text-2xl font-bold mb-2" id="summary-t4">...</p>
-          <div class="space-y-0.5 text-xs text-gray-400" id="summary-t4-bd"></div>
+          <p class="text-xs font-bold text-gray-500 uppercase mb-1">Tầng 3</p>
+          <p class="text-2xl font-bold" id="summary-t3">...</p>
         </div>
         <div class="bg-white rounded-2xl border border-gray-100 p-4">
-          <p class="text-xs font-bold text-gray-400 uppercase mb-1">T2</p>
-          <p class="text-2xl font-bold mb-2" id="summary-t2">...</p>
-          <p class="text-xs text-gray-400">Phần chung ÷3</p>
+          <p class="text-xs font-bold text-gray-500 uppercase mb-1">Tầng 4</p>
+          <p class="text-2xl font-bold" id="summary-t4">...</p>
         </div>
       </div>
       <div class="bg-gray-900 text-white rounded-2xl p-5">
@@ -1013,37 +1010,23 @@
       const t4     = thot4 + nk_t4 + wc4fix + ng + khac + per3;
 
       // Section totals
-      setText("phadot2-total", fmt(phadot2), phadot2); setText("phadot2-share", fmt(phadot2/3), phadot2/3);
+      setText("phadot2-total", fmt(phadot2), phadot2);
       setText("thot3-total",   fmt(thot3), thot3);
       setText("thot4-total",   fmt(thot4), thot4);
-      setText("mep-total",     fmt(mep), mep);     setText("mep-share", fmt(mep/3), mep/3);
-      setText("thaoson-total", fmt(thaoson), thaoson); setText("thaoson-share", fmt(thaoson/3), thaoson/3);
+      setText("mep-total",     fmt(mep), mep);
+      setText("thaoson-total", fmt(thaoson), thaoson);
       const nk_all = nk_sh + nk_t3 + nk_t4;
       setText("nhomkinh-total", fmt(nk_all), nk_all);
-      setText("pk-total",  fmt(pk), pk);   setText("pk-share",  fmt(pk/3), pk/3);
-      setText("bep-total", fmt(bep), bep); setText("bep-share", fmt(bep/3), bep/3);
+      setText("pk-total",  fmt(pk), pk);
+      setText("bep-total", fmt(bep), bep);
       setText("wc3fix-total", fmt(wc3fix), wc3fix);
       setText("wc4fix-total", fmt(wc4fix), wc4fix);
       setText("ng-total",    fmt(ng), ng);
       setText("khac-total",  fmt(khac), khac);
-      setText("thietke-total", fmt(thietke), thietke); setText("thietke-share", fmt(thietke/3), thietke/3);
-
+      setText("thietke-total", fmt(thietke), thietke);
       setText("summary-t3", fmt(t3), t3);
       setText("summary-t4", fmt(t4), t4);
       setText("summary-t2", fmt(per3), per3);
-
-      document.getElementById("summary-t3-bd").innerHTML =
-        `<div class="flex justify-between"><span>WC thô</span><span>${fmt(thot3)}</span></div>
-         <div class="flex justify-between"><span>Cửa WC T3</span><span>${fmt(nk_t3)}</span></div>
-         <div class="flex justify-between"><span>WC thiết bị</span><span>${fmt(wc3fix)}</span></div>
-         <div class="flex justify-between"><span>Phần chung ÷3</span><span>${fmt(per3)}</span></div>`;
-
-      document.getElementById("summary-t4-bd").innerHTML =
-        `<div class="flex justify-between"><span>WC thô</span><span>${fmt(thot4)}</span></div>
-         <div class="flex justify-between"><span>Cửa WC+P.ngủ T4</span><span>${fmt(nk_t4)}</span></div>
-         <div class="flex justify-between"><span>WC thiết bị</span><span>${fmt(wc4fix)}</span></div>
-         <div class="flex justify-between"><span>Phòng ngủ + khác</span><span>${fmt(ng+khac)}</span></div>
-         <div class="flex justify-between"><span>Phần chung ÷3</span><span>${fmt(per3)}</span></div>`;
 
       setText("grand-total", fmt(t3 + t4 + per3), t3 + t4 + per3);
     }

@@ -86,7 +86,7 @@
         <div>
           <h2 class="text-lg font-bold">Tầng 2 — Phòng khách <span class="text-sm font-normal text-gray-400">(dùng chung ÷3)</span></h2>
         </div>
-        <span class="ml-auto text-sm font-semibold text-gray-500">Phần mỗi người: <span class="text-amber-700 text-base font-bold" id="pk-share">...</span></span>
+        
       </div>
       <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         <div class="grid md:grid-cols-2">
@@ -159,7 +159,7 @@
         <div>
           <h2 class="text-lg font-bold">Tầng 2 — Phòng bếp <span class="text-sm font-normal text-gray-400">(dùng chung ÷3)</span></h2>
         </div>
-        <span class="ml-auto text-sm font-semibold text-gray-500">Phần mỗi người: <span class="text-amber-700 text-base font-bold" id="bep-share">...</span></span>
+        
       </div>
       <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         <div class="grid md:grid-cols-2">
@@ -213,7 +213,7 @@
         <div>
           <h2 class="text-lg font-bold">Tầng 2 — Phần thô chung <span class="text-sm font-normal text-gray-400">(MEP, sơn, vận chuyển ÷3)</span></h2>
         </div>
-        <span class="ml-auto text-sm font-semibold text-gray-500">Phần mỗi người: <span class="text-amber-700 text-base font-bold" id="tho-share">...</span></span>
+        
       </div>
       <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-1.5 text-sm">
             <div class="item-row state-must" data-price="8440000" data-section="tho" data-state="keep" data-disc="0">
@@ -485,7 +485,7 @@
           <h2 class="text-lg font-bold">Phí thiết kế <span class="text-sm font-normal text-gray-400">(dùng chung ÷3)</span></h2>
           <p class="text-sm text-gray-500">35.4m² × 550,000đ — giảm 30%</p>
         </div>
-        <span class="ml-auto text-sm font-semibold text-gray-500">Phần mỗi người: <span class="text-amber-700 text-base font-bold" id="tk-share">...</span></span>
+        
       </div>
       <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-1.5 text-sm">
         <div class="item-row state-must" data-price="13629000" data-section="thietke" data-state="keep">
@@ -560,31 +560,20 @@
     <section>
       <div class="flex items-center gap-3 mb-3">
         <div class="w-1 h-8 bg-amber-500 rounded"></div>
-        <h2 class="text-lg font-bold">Tổng kết — Ai trả bao nhiêu?</h2>
+        <h2 class="text-lg font-bold">Tổng kết theo tầng</h2>
       </div>
       <div class="grid sm:grid-cols-3 gap-4 mb-4">
-        <!-- You -->
-        <div class="bg-white rounded-2xl border-2 border-amber-400 p-5">
-          <p class="text-xs font-bold text-amber-600 uppercase tracking-wider mb-1">T3</p>
-          <p class="text-3xl font-bold mb-3" id="my-total">...</p>
-          <div class="space-y-1 text-xs text-gray-500" id="my-breakdown"></div>
-        </div>
-        <!-- T4 -->
         <div class="bg-white rounded-2xl border border-gray-100 p-5">
-          <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">T4</p>
-          <p class="text-3xl font-bold mb-3" id="t4-total">...</p>
-          <div class="space-y-1 text-xs text-gray-500">
-            <div class="flex justify-between"><span>T4 phòng ngủ</span><span id="ng-total">...</span></div>
-            <div class="flex justify-between"><span>Phần chung (÷3)</span><span id="t4-share-breakdown">...</span></div>
-          </div>
+          <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Tầng 2</p>
+          <p class="text-3xl font-bold" id="t2-total">...</p>
         </div>
-        <!-- T2 -->
         <div class="bg-white rounded-2xl border border-gray-100 p-5">
-          <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">T2</p>
-          <p class="text-3xl font-bold mb-3" id="t2-total">...</p>
-          <div class="space-y-1 text-xs text-gray-500">
-            <div class="flex justify-between"><span>Phần chung (÷3)</span><span id="t2-share-display">...</span></div>
-          </div>
+          <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Tầng 3</p>
+          <p class="text-3xl font-bold" id="my-total">...</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-gray-100 p-5">
+          <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Tầng 4</p>
+          <p class="text-3xl font-bold" id="t4-total">...</p>
         </div>
       </div>
       <!-- Grand total bar -->
@@ -739,34 +728,16 @@
 
       // Section totals
       setText('pk-total',  fmt(pk),  pk);
-      setText('pk-share',  fmt(pkShare),  pkShare);
-      setText('pk-share2', fmt(pkShare),  pkShare);
       setText('bep-total',  fmt(bep),  bep);
-      setText('bep-share',  fmt(bepShare),  bepShare);
-      setText('bep-share2', fmt(bepShare),  bepShare);
       setText('tho-total',  fmt(tho),  tho);
-      setText('tho-share',  fmt(thoShare),  thoShare);
-      setText('tho-share2', fmt(thoShare),  thoShare);
       setText('wc3-total',        fmt(wc3), wc3);
       setText('wc3-total-header', fmt(wc3), wc3);
-      setText('tk-share',  fmt(tkShare), tkShare);
-      setText('tk-share2', fmt(tkShare), tkShare);
       setText('ng-total',        fmt(ng), ng);
       setText('ng-total-header', fmt(ng), ng);
 
       // T3 total
       const myTotal = wc3 + pkShare + bepShare + thoShare + tkShare;
       setText('my-total', fmt(myTotal), myTotal);
-
-      // T3 breakdown
-      document.getElementById('my-breakdown').innerHTML = `
-        <div class="flex justify-between"><span>T3 WC</span><span>${fmt(wc3)}</span></div>
-        <div class="flex justify-between"><span>Phòng khách (÷3)</span><span>${fmt(pkShare)}</span></div>
-        <div class="flex justify-between"><span>Phòng bếp (÷3)</span><span>${fmt(bepShare)}</span></div>
-        <div class="flex justify-between"><span>Phần thô (÷3)</span><span>${fmt(thoShare)}</span></div>
-        <div class="flex justify-between"><span>Phí thiết kế (÷3)</span><span>${fmt(tkShare)}</span></div>
-      `;
-
       // T4 WC
       const wc4 = sectionTotal('wc4');
       setText('wc4-total',        fmt(wc4), wc4);
@@ -776,12 +747,7 @@
       const sharedPer3 = pkShare + bepShare + thoShare + tkShare;
       const t4Total = ng + wc4 + sharedPer3;
       setText('t4-total', fmt(t4Total), t4Total);
-      setText('t4-share-breakdown', fmt(sharedPer3), sharedPer3);
-
       // T2 total
-      setText('t2-total',         fmt(sharedPer3), sharedPer3);
-      setText('t2-share-display', fmt(sharedPer3), sharedPer3);
-
       // Grand total
       const grand = myTotal + t4Total + sharedPer3;
       setText('grand-total', fmt(grand), grand);
