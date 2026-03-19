@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Báo Giá Nội Thất — Nhà Anh Huy</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .thumb { cursor:pointer; transition: opacity .15s; }
+    .thumb:hover { opacity:.75; }
+    .thumb.active { outline: 3px solid #f59e0b; outline-offset:2px; }
+    #lightbox { display:none; }
+    #lightbox.open { display:flex; }
+    .item-row { transition: opacity .2s; }
+    .item-row.cut { opacity:.45; }
+    .btn-toggle { cursor:pointer; border-radius:9999px; font-size:11px; font-weight:600; padding:2px 10px; border:1.5px solid; transition: all .15s; user-select:none; }
+    .btn-keep  { background:#dcfce7; color:#166534; border-color:#86efac; }
+    .btn-cut   { background:#fee2e2; color:#991b1b; border-color:#fca5a5; }
+    .btn-buy   { background:#dbeafe; color:#1e40af; border-color:#93c5fd; }
+    .btn-must  { background:#fef9c3; color:#854d0e; border-color:#fde047; cursor:not-allowed; }
+    .state-keep .price-val  { color:#166534; }
+    .state-cut  .price-val  { color:#9ca3af; text-decoration:line-through; }
+    .state-buy  .price-val  { color:#1e40af; }
+
+    /* Discount pills */
+    .disc-row { display:none; margin-top:4px; padding-left:2px; gap:5px; flex-wrap:wrap; align-items:center; }
+    .state-buy .disc-row { display:flex; }
+    .disc-pill { cursor:pointer; font-size:10px; font-weight:700; padding:2px 8px; border-radius:9999px;
+                 border:1.5px solid #bfdbfe; background:#eff6ff; color:#1e40af; transition:all .15s; user-select:none; }
+    .disc-pill:hover { background:#dbeafe; }
+    .disc-pill.active { background:#1e40af; color:#fff; border-color:#1e40af; }
+    .disc-orig { font-size:10px; color:#9ca3af; text-decoration:line-through; margin-left:2px; }
+    .disc-effective { font-size:10px; color:#1e40af; font-weight:600; margin-left:2px; }
+
+    /* Total flash animation */
+    @keyframes flashGreen {
+      0%   { background:#dcfce7; transform:scale(1.06); }
+      60%  { background:#dcfce7; transform:scale(1.06); }
+      100% { background:transparent; transform:scale(1); }
+    }
+    @keyframes flashRed {
+      0%   { background:#fee2e2; transform:scale(1.06); }
+      60%  { background:#fee2e2; transform:scale(1.06); }
+      100% { background:transparent; transform:scale(1); }
+    }
+    @keyframes countUp {
+      0%   { opacity:0; transform:translateY(6px); }
+      100% { opacity:1; transform:translateY(0); }
+    }
+    .flash-green { animation: flashGreen 0.5s ease-out; border-radius:6px; }
+    .flash-red   { animation: flashRed   0.5s ease-out; border-radius:6px; }
+    .count-anim  { animation: countUp    0.25s ease-out; }
+    .total-val   { display:inline-block; transition: color .2s; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+  <!-- Header -->
+  <header class="bg-white border-b border-gray-200 sticky top-0 z-30">
+    <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div>
+        <h1 class="text-xl font-bold tracking-tight">Báo Giá Nội Thất</h1>
+        <p class="text-sm text-gray-500">Nhà Anh Huy — Hà Nội &nbsp;|&nbsp; MDF Melamine chống ẩm Thái Lan</p>
+      </div>
+      <span class="text-xs bg-amber-100 text-amber-800 px-3 py-1 rounded-full font-medium">Hiệu lực 30 ngày</span>
+    </div>
+  </header>
+
+  <!-- Legend -->
+  <div class="max-w-5xl mx-auto px-4 pt-5 pb-2 flex flex-wrap gap-2 text-xs font-semibold">
+    <span class="bg-green-100 text-green-800 border border-green-300 px-3 py-1 rounded-full">Giữ — contractor thi công</span>
+    <span class="bg-blue-100 text-blue-800 border border-blue-300 px-3 py-1 rounded-full">Tự mua — mua ngoài rẻ hơn</span>
+    <span class="bg-red-100 text-red-800 border border-red-300 px-3 py-1 rounded-full">Cắt — bỏ hạng mục</span>
+    <span class="bg-yellow-100 text-yellow-800 border border-yellow-300 px-3 py-1 rounded-full">⭐ Bắt buộc — không cắt được</span>
+    <span class="text-gray-400 ml-auto self-center">Click nút để thay đổi → tổng tự cập nhật</span>
+  </div>
+
+  <main class="max-w-5xl mx-auto px-4 py-6 space-y-10">
+
+    <!-- ══════════════════ T2 — PHÒNG KHÁCH ══════════════════ -->
+    <section data-section="pk">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-1 h-8 bg-amber-400 rounded"></div>
+        <div>
+          <h2 class="text-lg font-bold">Tầng 2 — Phòng khách <span class="text-sm font-normal text-gray-400">(dùng chung ÷3)</span></h2>
+        </div>
+        <span class="ml-auto text-sm font-semibold text-gray-500">Phần mỗi người: <span class="text-amber-700 text-base font-bold" id="pk-share">...</span></span>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="grid md:grid-cols-2">
+          <!-- Gallery -->
+          <div class="p-4 border-b md:border-b-0 md:border-r border-gray-100">
+            <img id="pk-main" src="ẢNH RENDER PHƯƠNG ÁN/1_Camera_007.png" alt="Phòng khách" class="w-full h-52 object-cover rounded-xl mb-3 bg-gray-100 cursor-pointer" onclick="openLightbox(this.src)" />
+            <div class="flex gap-2 flex-wrap">
+              <img src="ẢNH RENDER PHƯƠNG ÁN/1_Camera_007.png" alt="" class="thumb active w-13 h-13 w-14 h-14 object-cover rounded-lg" onclick="setMain('pk-main',this)" />
+              <img src="ẢNH RENDER PHƯƠNG ÁN/1_Camera_008.png" alt="" class="thumb w-14 h-14 object-cover rounded-lg" onclick="setMain('pk-main',this)" />
+              <img src="ẢNH RENDER PHƯƠNG ÁN/1_5.png" alt="" class="thumb w-14 h-14 object-cover rounded-lg" onclick="setMain('pk-main',this)" />
+              <img src="ẢNH RENDER PHƯƠNG ÁN/1_6.png" alt="" class="thumb w-14 h-14 object-cover rounded-lg" onclick="setMain('pk-main',this)" />
+              <img src="ẢNH RENDER PHƯƠNG ÁN/1_7.png" alt="" class="thumb w-14 h-14 object-cover rounded-lg" onclick="setMain('pk-main',this)" />
+            </div>
+          </div>
+          <!-- Items -->
+          <div class="p-4 space-y-1.5 text-sm">
+            <div class="item-row state-keep" data-price="25613280" data-section="pk" data-state="keep">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Cửa lùa hệ Slim 4 cánh</span>
+                <span class="price-val tabular-nums font-medium">25,613,280đ</span>
+              </div>
+            </div>
+            <div class="item-row state-keep" data-price="5400000" data-section="pk" data-state="keep">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Phụ kiện cửa lùa (Draho)</span>
+                <span class="price-val tabular-nums font-medium">10,800,000đ</span>
+              </div>
+            </div>
+            <div class="item-row state-keep" data-price="10800000" data-section="pk" data-state="keep" data-disc="0">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Sofa văng</span>
+                <span class="price-val tabular-nums font-medium">10,800,000đ</span>
+              </div>
+              <div class="disc-row">
+                <span class="text-gray-400" style="font-size:10px">Giảm:</span>
+                <span class="disc-pill" onclick="setDisc(this,10)">-10%</span>
+                <span class="disc-pill" onclick="setDisc(this,20)">-20%</span>
+                <span class="disc-pill" onclick="setDisc(this,30)">-30%</span>
+                <span class="disc-pill" onclick="setDisc(this,50)">-50%</span>
+                <span class="disc-orig"></span><span class="disc-effective"></span>
+              </div>
+            </div>
+            <div class="item-row state-keep" data-price="4500000" data-section="pk" data-state="keep" data-disc="0">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Bộ bàn trà</span>
+                <span class="price-val tabular-nums font-medium">4,500,000đ</span>
+              </div>
+              <div class="disc-row">
+                <span class="text-gray-400" style="font-size:10px">Giảm:</span>
+                <span class="disc-pill" onclick="setDisc(this,10)">-10%</span>
+                <span class="disc-pill" onclick="setDisc(this,20)">-20%</span>
+                <span class="disc-pill" onclick="setDisc(this,30)">-30%</span>
+                <span class="disc-pill" onclick="setDisc(this,50)">-50%</span>
+                <span class="disc-orig"></span><span class="disc-effective"></span>
+              </div>
+            </div>
+            <div class="item-row state-keep" data-price="3890000" data-section="pk" data-state="keep" data-disc="0">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Bàn ăn + ghế x4</span>
+                <span class="price-val tabular-nums font-medium">3,890,000đ</span>
+              </div>
+              <div class="disc-row">
+                <span class="text-gray-400" style="font-size:10px">Giảm:</span>
+                <span class="disc-pill" onclick="setDisc(this,10)">-10%</span>
+                <span class="disc-pill" onclick="setDisc(this,20)">-20%</span>
+                <span class="disc-pill" onclick="setDisc(this,30)">-30%</span>
+                <span class="disc-pill" onclick="setDisc(this,50)">-50%</span>
+                <span class="disc-orig"></span><span class="disc-effective"></span>
+              </div>
+            </div>
+            <div class="item-row state-keep" data-price="500000" data-section="pk" data-state="keep" data-disc="0">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Kệ tivi / TV mount</span>
+                <span class="price-val tabular-nums font-medium">2,028,000đ</span>
+              </div>
+              <div class="disc-row">
+                <span class="text-gray-400" style="font-size:10px">Giảm:</span>
+                <span class="disc-pill" onclick="setDisc(this,10)">-10%</span>
+                <span class="disc-pill" onclick="setDisc(this,20)">-20%</span>
+                <span class="disc-pill" onclick="setDisc(this,30)">-30%</span>
+                <span class="disc-pill" onclick="setDisc(this,50)">-50%</span>
+                <span class="disc-orig"></span><span class="disc-effective"></span>
+              </div>
+            </div>
+            <div class="item-row state-keep" data-price="8798764" data-section="pk" data-state="keep">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Vách ốp tivi</span>
+                <span class="price-val tabular-nums font-medium">8,798,764đ</span>
+              </div>
+            </div>
+            <div class="item-row state-keep" data-price="3144000" data-section="pk" data-state="keep">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Tủ đặt bể cá</span>
+                <span class="price-val tabular-nums font-medium">3,144,000đ</span>
+              </div>
+            </div>
+            <div class="border-t pt-2 mt-2 space-y-1">
+              <div class="flex justify-between text-xs text-gray-500"><span>Tổng phòng khách</span><span id="pk-total" class="tabular-nums font-semibold">...</span></div>
+              <div class="flex justify-between text-xs font-bold text-amber-700"><span>Phần bạn (÷3)</span><span id="pk-share2" class="tabular-nums">...</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════ T2 — PHÒNG BẾP ══════════════════ -->
+    <section data-section="bep">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-1 h-8 bg-amber-400 rounded"></div>
+        <div>
+          <h2 class="text-lg font-bold">Tầng 2 — Phòng bếp <span class="text-sm font-normal text-gray-400">(dùng chung ÷3)</span></h2>
+        </div>
+        <span class="ml-auto text-sm font-semibold text-gray-500">Phần mỗi người: <span class="text-amber-700 text-base font-bold" id="bep-share">...</span></span>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="grid md:grid-cols-2">
+          <div class="p-4 border-b md:border-b-0 md:border-r border-gray-100">
+            <img id="bep-main" src="ẢNH RENDER PHƯƠNG ÁN/BẾP_Camera_004.png" alt="Phòng bếp" class="w-full h-52 object-cover rounded-xl mb-3 bg-gray-100 cursor-pointer" onclick="openLightbox(this.src)" />
+            <div class="flex gap-2 flex-wrap">
+              <img src="ẢNH RENDER PHƯƠNG ÁN/BẾP_Camera_004.png" alt="" class="thumb active w-14 h-14 object-cover rounded-lg" onclick="setMain('bep-main',this)" />
+              <img src="ẢNH RENDER PHƯƠNG ÁN/BẾP_Camera_006.png" alt="" class="thumb w-14 h-14 object-cover rounded-lg" onclick="setMain('bep-main',this)" />
+              <img src="ẢNH RENDER PHƯƠNG ÁN/BẾP_Camera_009.png" alt="" class="thumb w-14 h-14 object-cover rounded-lg" onclick="setMain('bep-main',this)" />
+              <img src="ẢNH RENDER PHƯƠNG ÁN/BẾP_Camera_010.png" alt="" class="thumb w-14 h-14 object-cover rounded-lg" onclick="setMain('bep-main',this)" />
+            </div>
+          </div>
+          <div class="p-4 space-y-1.5 text-sm">
+            <div class="item-row state-keep" data-price="16318560" data-section="bep" data-state="keep">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Tủ bếp dưới + đá mặt bếp</span>
+                <span class="price-val tabular-nums font-medium">16,318,560đ</span>
+              </div>
+            </div>
+            <div class="item-row state-keep" data-price="10309680" data-section="bep" data-state="keep">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Tủ bếp trên</span>
+                <span class="price-val tabular-nums font-medium">10,309,680đ</span>
+              </div>
+            </div>
+            <div class="item-row state-keep" data-price="3671136" data-section="bep" data-state="keep">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Hệ tủ tủ lạnh (enclosure)</span>
+                <span class="price-val tabular-nums font-medium">3,671,136đ</span>
+              </div>
+            </div>
+            <div class="item-row state-keep" data-price="200000" data-section="bep" data-state="keep" data-disc="0">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Đèn LED bếp</span>
+                <span class="price-val tabular-nums font-medium">~200,000đ</span>
+              </div>
+              <div class="disc-row">
+                <span class="text-gray-400" style="font-size:10px">Giảm:</span>
+                <span class="disc-pill" onclick="setDisc(this,10)">-10%</span>
+                <span class="disc-pill" onclick="setDisc(this,20)">-20%</span>
+                <span class="disc-pill" onclick="setDisc(this,30)">-30%</span>
+                <span class="disc-pill" onclick="setDisc(this,50)">-50%</span>
+                <span class="disc-orig"></span><span class="disc-effective"></span>
+              </div>
+            </div>
+            <div class="border-t pt-2 mt-2 space-y-1">
+              <div class="flex justify-between text-xs text-gray-500"><span>Tổng phòng bếp</span><span id="bep-total" class="tabular-nums font-semibold">...</span></div>
+              <div class="flex justify-between text-xs font-bold text-amber-700"><span>Phần bạn (÷3)</span><span id="bep-share2" class="tabular-nums">...</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════ T2 — PHẦN THÔ CHUNG ══════════════════ -->
+    <section data-section="tho">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-1 h-8 bg-gray-400 rounded"></div>
+        <div>
+          <h2 class="text-lg font-bold">Tầng 2 — Phần thô chung <span class="text-sm font-normal text-gray-400">(MEP, sơn, vận chuyển ÷3)</span></h2>
+        </div>
+        <span class="ml-auto text-sm font-semibold text-gray-500">Phần mỗi người: <span class="text-amber-700 text-base font-bold" id="tho-share">...</span></span>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-1.5 text-sm">
+        <div class="item-row state-must" data-price="8440000" data-section="tho" data-state="keep">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-must">⭐</button>
+            <span class="flex-1">T2 phá dỡ (bố mẹ)</span>
+            <span class="price-val tabular-nums font-medium">8,440,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="43800000" data-section="tho" data-state="keep">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-must">⭐</button>
+            <span class="flex-1">MEP điện + nước</span>
+            <span class="price-val tabular-nums font-medium">43,800,000đ</span>
+          </div>
+        </div>
+        <div class="item-row state-keep" data-price="21521580" data-section="tho" data-state="keep">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1">Thạch cao + sơn tường</span>
+            <span class="price-val tabular-nums font-medium">21,521,580đ</span>
+          </div>
+        </div>
+        <div class="item-row state-must" data-price="11400000" data-section="tho" data-state="keep">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-must">⭐</button>
+            <span class="flex-1">Vệ sinh + vận chuyển</span>
+            <span class="price-val tabular-nums font-medium">11,400,000đ</span>
+          </div>
+        </div>
+        <div class="border-t pt-2 mt-2 space-y-1">
+          <div class="flex justify-between text-xs text-gray-500"><span>Tổng phần thô</span><span id="tho-total" class="tabular-nums font-semibold">...</span></div>
+          <div class="flex justify-between text-xs font-bold text-amber-700"><span>Phần bạn (÷3)</span><span id="tho-share2" class="tabular-nums">...</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════ T3 — WC ══════════════════ -->
+    <section data-section="wc3">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-1 h-8 bg-amber-500 rounded"></div>
+        <div>
+          <h2 class="text-lg font-bold">Tầng 3 — WC <span class="text-sm font-normal text-gray-400">(T3 — tự trả)</span></h2>
+        </div>
+        <span class="ml-auto text-base font-bold text-amber-700" id="wc3-total-header">...</span>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="grid md:grid-cols-2">
+          <div class="p-4 border-b md:border-b-0 md:border-r border-gray-100">
+            <img id="wc3-main" src="ẢNH RENDER PHƯƠNG ÁN/render_Camera_001.png" alt="WC T3" class="w-full h-52 object-cover rounded-xl mb-3 bg-gray-100 cursor-pointer" onclick="openLightbox(this.src)" />
+            <div class="flex gap-2">
+              <img src="ẢNH RENDER PHƯƠNG ÁN/render_Camera_001.png" alt="" class="thumb active w-16 h-16 object-cover rounded-lg" onclick="setMain('wc3-main',this)" />
+              <img src="ẢNH RENDER PHƯƠNG ÁN/render_Camera_002.png" alt="" class="thumb w-16 h-16 object-cover rounded-lg" onclick="setMain('wc3-main',this)" />
+              <img src="ẢNH RENDER PHƯƠNG ÁN/render_Camera_003.png" alt="" class="thumb w-16 h-16 object-cover rounded-lg" onclick="setMain('wc3-main',this)" />
+            </div>
+          </div>
+          <div class="p-4 space-y-1.5 text-sm">
+            <div class="item-row state-keep" data-price="1033200" data-section="wc3" data-state="keep">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Tháo dỡ + phá dỡ</span>
+                <span class="price-val tabular-nums font-medium">1,033,200đ</span>
+              </div>
+            </div>
+            <div class="item-row state-keep" data-price="3221550" data-section="wc3" data-state="keep">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Dóc vữa + gạch cũ</span>
+                <span class="price-val tabular-nums font-medium">3,221,550đ</span>
+              </div>
+            </div>
+            <div class="item-row state-keep" data-price="5369250" data-section="wc3" data-state="keep">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Trát + láng tường</span>
+                <span class="price-val tabular-nums font-medium">5,369,250đ</span>
+              </div>
+            </div>
+            <div class="item-row state-must" data-price="12600000" data-section="wc3" data-state="keep">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-must">⭐</button>
+                <span class="flex-1">Chống thấm Sika</span>
+                <span class="price-val tabular-nums font-medium text-amber-700">12,600,000đ</span>
+              </div>
+            </div>
+            <div class="item-row state-keep" data-price="5369250" data-section="wc3" data-state="keep">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Ốp + lát gạch</span>
+                <span class="price-val tabular-nums font-medium">5,369,250đ</span>
+              </div>
+            </div>
+            <div class="item-row state-keep" data-price="2006400" data-section="wc3" data-state="keep">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Trần chống ẩm + nẹp</span>
+                <span class="price-val tabular-nums font-medium">2,006,400đ</span>
+              </div>
+            </div>
+            <div class="item-row state-keep" data-price="10800000" data-section="wc3" data-state="keep">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Cửa WC composite</span>
+                <span class="price-val tabular-nums font-medium">5,400,000đ</span>
+              </div>
+            </div>
+            <div class="item-row state-keep" data-price="9500000" data-section="wc3" data-state="keep" data-disc="0">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Bồn cầu Inax/Cotto</span>
+                <span class="price-val tabular-nums font-medium">9,500,000đ</span>
+              </div>
+              <div class="disc-row">
+                <span class="text-gray-400" style="font-size:10px">Giảm:</span>
+                <span class="disc-pill" onclick="setDisc(this,10)">-10%</span>
+                <span class="disc-pill" onclick="setDisc(this,20)">-20%</span>
+                <span class="disc-pill" onclick="setDisc(this,30)">-30%</span>
+                <span class="disc-pill" onclick="setDisc(this,50)">-50%</span>
+                <span class="disc-orig"></span><span class="disc-effective"></span>
+              </div>
+            </div>
+            <div class="item-row state-keep" data-price="7200000" data-section="wc3" data-state="keep" data-disc="0">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Phụ kiện vệ sinh</span>
+                <span class="price-val tabular-nums font-medium">7,200,000đ</span>
+              </div>
+              <div class="disc-row">
+                <span class="text-gray-400" style="font-size:10px">Giảm:</span>
+                <span class="disc-pill" onclick="setDisc(this,10)">-10%</span>
+                <span class="disc-pill" onclick="setDisc(this,20)">-20%</span>
+                <span class="disc-pill" onclick="setDisc(this,30)">-30%</span>
+                <span class="disc-pill" onclick="setDisc(this,50)">-50%</span>
+                <span class="disc-orig"></span><span class="disc-effective"></span>
+              </div>
+            </div>
+            <div class="item-row state-keep" data-price="2028000" data-section="wc3" data-state="keep" data-disc="0">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Đèn trần</span>
+                <span class="price-val tabular-nums font-medium">~500,000đ</span>
+              </div>
+              <div class="disc-row">
+                <span class="text-gray-400" style="font-size:10px">Giảm:</span>
+                <span class="disc-pill" onclick="setDisc(this,10)">-10%</span>
+                <span class="disc-pill" onclick="setDisc(this,20)">-20%</span>
+                <span class="disc-pill" onclick="setDisc(this,30)">-30%</span>
+                <span class="disc-pill" onclick="setDisc(this,50)">-50%</span>
+                <span class="disc-orig"></span><span class="disc-effective"></span>
+              </div>
+            </div>
+            <div class="item-row state-keep" data-price="7560000" data-section="wc3" data-state="keep">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Tủ trên bồn cầu</span>
+                <span class="price-val tabular-nums font-medium">7,560,000đ</span>
+              </div>
+            </div>
+            <div class="item-row state-keep" data-price="3580000" data-section="wc3" data-state="keep">
+              <div class="flex items-center gap-2">
+                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <span class="flex-1">Bình nóng lạnh (dùng lại)</span>
+                <span class="price-val tabular-nums font-medium">3,580,000đ</span>
+              </div>
+            </div>
+            <div class="border-t pt-2 mt-2">
+              <div class="flex justify-between text-xs font-bold text-amber-700"><span>Tổng T3 WC</span><span id="wc3-total" class="tabular-nums">...</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════ T4 — WC ══════════════════ -->
+    <section data-section="wc4">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-1 h-8 bg-gray-500 rounded"></div>
+        <div>
+          <h2 class="text-lg font-bold">Tầng 4 — WC <span class="text-sm font-normal text-gray-400">(sàn T4 — tự trả)</span></h2>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="grid md:grid-cols-2">
+          <div class="p-4 border-b md:border-b-0 md:border-r border-gray-100">
+            <img id="wc4-main" src="ẢNH RENDER PHƯƠNG ÁN/WC_4_Camera_001.png" alt="WC T4" class="w-full h-52 object-cover rounded-xl mb-3 bg-gray-100 cursor-pointer" onclick="openLightbox(this.src)" />
+            <div class="flex gap-2">
+              <img src="ẢNH RENDER PHƯƠNG ÁN/WC_4_Camera_001.png" alt="" class="thumb active w-16 h-16 object-cover rounded-lg" onclick="setMain('wc4-main',this)" />
+              <img src="ẢNH RENDER PHƯƠNG ÁN/WC_4_Camera_002.png" alt="" class="thumb w-16 h-16 object-cover rounded-lg" onclick="setMain('wc4-main',this)" />
+              <img src="ẢNH RENDER PHƯƠNG ÁN/WC_4_Camera_003.png" alt="" class="thumb w-16 h-16 object-cover rounded-lg" onclick="setMain('wc4-main',this)" />
+            </div>
+          </div>
+          <div class="p-4 flex flex-col justify-center text-sm text-gray-600">
+            <p class="mb-3">WC tầng 4 — tương tự T3. Chi tiết do T4 tự quyết định.</p>
+            <div class="bg-gray-50 rounded-xl p-3 text-xs text-gray-500">T4 tự thanh toán toàn bộ sàn của mình (WC + phòng ngủ).</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════ T4 — PHÒNG NGỦ ══════════════════ -->
+    <section>
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-1 h-8 bg-gray-500 rounded"></div>
+        <div>
+          <h2 class="text-lg font-bold">Tầng 4 — Phòng ngủ <span class="text-sm font-normal text-gray-400">(sàn T4 — tự trả)</span></h2>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+        <img id="ng-main" src="ẢNH RENDER PHƯƠNG ÁN/render_6_Camera_004.png" alt="Phòng ngủ T4" class="w-full h-60 object-cover rounded-xl mb-3 bg-gray-100 cursor-pointer" onclick="openLightbox(this.src)" />
+        <div class="flex gap-2 flex-wrap">
+          <img src="ẢNH RENDER PHƯƠNG ÁN/render_6_Camera_004.png" alt="" class="thumb active w-14 h-14 object-cover rounded-lg" onclick="setMain('ng-main',this)" />
+          <img src="ẢNH RENDER PHƯƠNG ÁN/render_6_Camera_005.png" alt="" class="thumb w-14 h-14 object-cover rounded-lg" onclick="setMain('ng-main',this)" />
+          <img src="ẢNH RENDER PHƯƠNG ÁN/render_6_Camera_006.png" alt="" class="thumb w-14 h-14 object-cover rounded-lg" onclick="setMain('ng-main',this)" />
+          <img src="ẢNH RENDER PHƯƠNG ÁN/render_6_Camera_007.png" alt="" class="thumb w-14 h-14 object-cover rounded-lg" onclick="setMain('ng-main',this)" />
+          <img src="ẢNH RENDER PHƯƠNG ÁN/render_6_Camera_008.png" alt="" class="thumb w-14 h-14 object-cover rounded-lg" onclick="setMain('ng-main',this)" />
+          <img src="ẢNH RENDER PHƯƠNG ÁN/render_11.png" alt="" class="thumb w-14 h-14 object-cover rounded-lg" onclick="setMain('ng-main',this)" />
+        </div>
+        <p class="mt-3 text-sm text-gray-500">Tủ tivi + bàn phấn, tủ quần áo, vách đầu giường, giường, gương LED. T4 tự quyết định và thanh toán.</p>
+      </div>
+    </section>
+
+    <!-- ══════════════════ PHÍ THIẾT KẾ ══════════════════ -->
+    <section data-section="thietke">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-1 h-8 bg-gray-400 rounded"></div>
+        <div>
+          <h2 class="text-lg font-bold">Phí thiết kế <span class="text-sm font-normal text-gray-400">(dùng chung ÷3)</span></h2>
+          <p class="text-sm text-gray-500">35.4m² × 550,000đ — giảm 30%</p>
+        </div>
+        <span class="ml-auto text-sm font-semibold text-gray-500">Phần mỗi người: <span class="text-amber-700 text-base font-bold" id="tk-share">...</span></span>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-1.5 text-sm">
+        <div class="item-row state-must" data-price="13629000" data-section="thietke" data-state="keep">
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-must">⭐</button>
+            <span class="flex-1">Phí thiết kế nội thất (sau giảm 30%)</span>
+            <span class="price-val tabular-nums font-medium text-amber-700">13,629,000đ</span>
+          </div>
+        </div>
+        <div class="border-t pt-2 mt-2 space-y-1">
+          <div class="flex justify-between text-xs text-gray-500"><span>Tổng phí thiết kế</span><span class="tabular-nums font-semibold">13,629,000đ</span></div>
+          <div class="flex justify-between text-xs font-bold text-amber-700"><span>Phần bạn (÷3)</span><span id="tk-share2" class="tabular-nums">...</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════ TỔNG KẾT ══════════════════ -->
+    <section>
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-1 h-8 bg-amber-500 rounded"></div>
+        <h2 class="text-lg font-bold">Tổng kết — Ai trả bao nhiêu?</h2>
+      </div>
+      <div class="grid sm:grid-cols-3 gap-4 mb-4">
+        <!-- You -->
+        <div class="bg-white rounded-2xl border-2 border-amber-400 p-5">
+          <p class="text-xs font-bold text-amber-600 uppercase tracking-wider mb-1">T3</p>
+          <p class="text-3xl font-bold mb-3" id="my-total">...</p>
+          <div class="space-y-1 text-xs text-gray-500" id="my-breakdown"></div>
+        </div>
+        <!-- T4 -->
+        <div class="bg-white rounded-2xl border border-gray-100 p-5">
+          <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">T4</p>
+          <p class="text-3xl font-bold mb-1">~167M</p>
+          <p class="text-xs text-gray-400">T4 riêng (~100M) + phần chung ÷3 (~67M)</p>
+        </div>
+        <!-- Bố mẹ -->
+        <div class="bg-white rounded-2xl border border-gray-100 p-5">
+          <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Bố mẹ (T2)</p>
+          <p class="text-3xl font-bold mb-1">~67M</p>
+          <p class="text-xs text-gray-400">Phần chung ÷3 (~67M)</p>
+        </div>
+      </div>
+      <!-- Grand total bar -->
+      <div class="bg-gray-900 text-white rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <p class="text-xs text-gray-400 mb-1">Grand Total (3 bên)</p>
+          <p class="text-3xl font-bold" id="grand-total">...</p>
+        </div>
+        <div class="text-sm text-gray-400 space-y-1 text-right">
+          <p>Báo giá gốc: <span class="line-through">345,633,536đ</span></p>
+          <p>Tiết kiệm: <span class="text-green-400 font-bold" id="savings">...</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════ EXPORT ══════════════════ -->
+    <section class="bg-white border border-gray-200 rounded-2xl p-5">
+      <h3 class="font-bold text-gray-800 mb-3">Lưu / Tải trạng thái</h3>
+      <div class="flex gap-2">
+        <button onclick="saveJSON()" class="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-colors">
+          Lưu JSON
+        </button>
+        <label class="cursor-pointer bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-sm font-semibold px-4 py-2 rounded-xl transition-colors">
+          Tải JSON
+          <input type="file" accept=".json" onchange="loadJSON(event)" class="hidden" />
+        </label>
+      </div>
+      <p class="text-xs text-gray-400 mt-2">Lưu trạng thái Giữ/Cắt/Tự mua + giảm giá. Tải lại để khôi phục.</p>
+    </section>
+
+    <!-- ══════════════════ GHI CHÚ ══════════════════ -->
+    <section class="bg-amber-50 border border-amber-200 rounded-2xl p-5 text-sm text-amber-800">
+      <h3 class="font-bold text-amber-900 mb-2">Lưu ý</h3>
+      <ul class="space-y-1 list-disc list-inside">
+        <li>Chưa bao gồm <strong>VAT</strong> (thêm 10% nếu xuất hoá đơn)</li>
+        <li>Gạch ốp lát <strong>do chủ đầu tư tự cung cấp</strong> — chưa tính trong báo giá</li>
+        <li>Bảo hành <strong>12 tháng</strong> đồ gỗ, theo nhà sản xuất với phụ kiện</li>
+        <li>Cửa lùa phòng khách (Phase 2) — có thể defer nếu ngân sách eo hẹp</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-gray-200 mt-10 py-5 text-center text-xs text-gray-400">
+    Báo giá nội thất — Nhà Anh Huy, Hà Nội &nbsp;|&nbsp; MDF Melamine chống ẩm Thái Lan
+  </footer>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="fixed inset-0 bg-black/85 z-50 items-center justify-center p-4" onclick="closeLightbox()">
+    <img id="lightbox-img" src="" alt="Phóng to" class="max-w-full max-h-full object-contain rounded-xl shadow-2xl" />
+  </div>
+
+  <script>
+    // ── Gallery ──────────────────────────────────────────
+    function setMain(mainId, thumb) {
+      document.getElementById(mainId).src = thumb.src;
+      thumb.closest('div').querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+      thumb.classList.add('active');
+    }
+    function openLightbox(src) {
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox').classList.add('open');
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+    // ── Toggle state ─────────────────────────────────────
+    const STATES = ['keep','buy','cut'];
+    const BTN_CLASS = { keep:'btn-keep', buy:'btn-buy', cut:'btn-cut' };
+    const BTN_LABEL = { keep:'Giữ', buy:'Tự mua', cut:'Cắt' };
+
+    function cycleState(btn) {
+      const row = btn.closest('.item-row');
+      const cur = row.dataset.state;
+      const next = STATES[(STATES.indexOf(cur) + 1) % STATES.length];
+      row.dataset.state = next;
+      // update row class
+      row.className = row.className.replace(/state-\w+/, `state-${next}`);
+      row.classList.toggle('cut', next === 'cut');
+      // update button
+      btn.className = `btn-toggle ${BTN_CLASS[next]}`;
+      btn.textContent = BTN_LABEL[next];
+      recalc();
+    }
+
+    // ── Discount pills ───────────────────────────────────
+    function setDisc(pill, pct) {
+      const row = pill.closest('.item-row');
+      const cur = parseInt(row.dataset.disc || 0);
+      // toggle off if same
+      const next = cur === pct ? 0 : pct;
+      row.dataset.disc = next;
+
+      // update pill active states
+      row.querySelectorAll('.disc-pill').forEach(p => p.classList.remove('active'));
+      if (next > 0) pill.classList.add('active');
+
+      // update orig/effective labels + price-val
+      const base = parseInt(row.dataset.price);
+      const origEl  = row.querySelector('.disc-orig');
+      const effEl   = row.querySelector('.disc-effective');
+      const priceEl = row.querySelector('.price-val');
+      if (next > 0) {
+        const effective = Math.round(base * (1 - next/100));
+        origEl.textContent  = fmt(base);
+        effEl.textContent   = '→ ' + fmt(effective);
+        if (priceEl) priceEl.textContent = fmt(effective);
+      } else {
+        origEl.textContent  = '';
+        effEl.textContent   = '';
+        if (priceEl) priceEl.textContent = '~' + fmt(base);
+      }
+      recalc();
+    }
+
+    // ── Recalc ───────────────────────────────────────────
+    function fmt(n) {
+      return Math.round(n).toLocaleString('vi-VN') + 'đ';
+    }
+
+    function sectionTotal(sec) {
+      let total = 0;
+      document.querySelectorAll(`[data-section="${sec}"]`).forEach(row => {
+        if (row.dataset.state !== 'cut') {
+          const base = parseInt(row.dataset.price || 0);
+          const disc = parseInt(row.dataset.disc  || 0);
+          total += disc > 0 ? Math.round(base * (1 - disc/100)) : base;
+        }
+      });
+      return total;
+    }
+
+    function recalc() {
+      const pk  = sectionTotal('pk');
+      const bep = sectionTotal('bep');
+      const tho = sectionTotal('tho');
+      const wc3 = sectionTotal('wc3');
+      const tk  = sectionTotal('thietke');
+
+      const pkShare  = pk  / 3;
+      const bepShare = bep / 3;
+      const thoShare = tho / 3;
+      const tkShare  = tk  / 3;
+
+      // Section totals
+      setText('pk-total',  fmt(pk),  pk);
+      setText('pk-share',  fmt(pkShare),  pkShare);
+      setText('pk-share2', fmt(pkShare),  pkShare);
+      setText('bep-total',  fmt(bep),  bep);
+      setText('bep-share',  fmt(bepShare),  bepShare);
+      setText('bep-share2', fmt(bepShare),  bepShare);
+      setText('tho-total',  fmt(tho),  tho);
+      setText('tho-share',  fmt(thoShare),  thoShare);
+      setText('tho-share2', fmt(thoShare),  thoShare);
+      setText('wc3-total',        fmt(wc3), wc3);
+      setText('wc3-total-header', fmt(wc3), wc3);
+      setText('tk-share',  fmt(tkShare), tkShare);
+      setText('tk-share2', fmt(tkShare), tkShare);
+
+      // My total
+      const myTotal = wc3 + pkShare + bepShare + thoShare + tkShare;
+      setText('my-total', fmt(myTotal), myTotal);
+
+      // My breakdown
+      document.getElementById('my-breakdown').innerHTML = `
+        <div class="flex justify-between"><span>T3 WC</span><span>${fmt(wc3)}</span></div>
+        <div class="flex justify-between"><span>Phòng khách (÷3)</span><span>${fmt(pkShare)}</span></div>
+        <div class="flex justify-between"><span>Phòng bếp (÷3)</span><span>${fmt(bepShare)}</span></div>
+        <div class="flex justify-between"><span>Phần thô (÷3)</span><span>${fmt(thoShare)}</span></div>
+        <div class="flex justify-between"><span>Phí thiết kế (÷3)</span><span>${fmt(tkShare)}</span></div>
+      `;
+
+      // Grand total
+      const t4Fixed = 167000000;
+      const bfFixed = thoShare + pkShare + bepShare + tkShare;
+      const grand = myTotal + t4Fixed + bfFixed;
+      setText('grand-total', fmt(grand), grand);
+
+      const orig = 345633536;
+      const saved = orig - grand;
+      const savEl = document.getElementById('savings');
+      savEl.textContent = (saved >= 0 ? '+' : '') + fmt(saved);
+      savEl.className = saved >= 0 ? 'text-green-400 font-bold' : 'text-red-400 font-bold';
+    }
+
+    // Store previous values for direction detection
+    const prevVals = {};
+
+    function setText(id, val, numeric) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const prev = prevVals[id];
+      prevVals[id] = numeric;
+      el.textContent = val;
+      // animate
+      el.classList.remove('flash-green','flash-red','count-anim');
+      void el.offsetWidth; // reflow
+      if (prev !== undefined && numeric !== undefined) {
+        if (numeric < prev) el.classList.add('flash-green');
+        else if (numeric > prev) el.classList.add('flash-red');
+        else return;
+      }
+      el.classList.add('count-anim');
+    }
+
+    // ── JSON save / load ─────────────────────────────────
+    function getState() {
+      const state = {};
+      document.querySelectorAll('.item-row[data-section]').forEach((row, i) => {
+        const key = row.dataset.section + '_' + i;
+        state[key] = {
+          state: row.dataset.state,
+          disc:  parseInt(row.dataset.disc || 0)
+        };
+      });
+      return state;
+    }
+
+    function applyState(state) {
+      document.querySelectorAll('.item-row[data-section]').forEach((row, i) => {
+        const key = row.dataset.section + '_' + i;
+        if (!state[key]) return;
+        const { state: s, disc } = state[key];
+
+        // Skip must items
+        if (row.querySelector('.btn-must')) return;
+
+        // Apply state
+        const btn = row.querySelector('.btn-toggle');
+        row.dataset.state = s;
+        row.className = row.className.replace(/state-\w+/, `state-${s}`);
+        row.classList.toggle('cut', s === 'cut');
+        btn.className = `btn-toggle ${BTN_CLASS[s]}`;
+        btn.textContent = BTN_LABEL[s];
+
+        // Apply discount
+        row.dataset.disc = disc;
+        const pills = row.querySelectorAll('.disc-pill');
+        pills.forEach(p => p.classList.remove('active'));
+        if (disc > 0) {
+          pills.forEach(p => { if (p.textContent === `-${disc}%`) p.classList.add('active'); });
+          const base = parseInt(row.dataset.price);
+          const effective = Math.round(base * (1 - disc/100));
+          const origEl = row.querySelector('.disc-orig');
+          const effEl  = row.querySelector('.disc-effective');
+          const priceEl = row.querySelector('.price-val');
+          if (origEl) origEl.textContent = fmt(base);
+          if (effEl)  effEl.textContent  = '→ ' + fmt(effective);
+          if (priceEl) priceEl.textContent = fmt(effective);
+        }
+      });
+      recalc();
+    }
+
+    function saveJSON() {
+      const data = {
+        saved: new Date().toISOString(),
+        items: getState()
+      };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'bao-gia-state.json';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    function loadJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        try {
+          const data = JSON.parse(e.target.result);
+          applyState(data.items || data);
+        } catch {
+          alert('File JSON không hợp lệ.');
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = ''; // reset so same file can be loaded again
+    }
+
+    // Init
+    recalc();
+  </script>
+</body>
+</html>
