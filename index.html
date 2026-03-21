@@ -73,6 +73,22 @@
       margin-left: -8px;
       margin-top: -22px;
     }
+
+    /* Add-item form */
+    .add-item-form { display:none; background:#f8fafc; border:1.5px dashed #cbd5e1; border-radius:12px; padding:10px 12px; margin-top:6px; gap:8px; flex-wrap:wrap; align-items:center; }
+    .add-item-form.open { display:flex; }
+    .add-item-form input { border:1.5px solid #e2e8f0; border-radius:8px; padding:5px 10px; font-size:13px; outline:none; transition:border-color .15s; background:#fff; }
+    .add-item-form input:focus { border-color:#f59e0b; }
+    .add-item-form input.inp-label { flex:1; min-width:140px; }
+    .add-item-form input.inp-price { width:130px; }
+    .btn-add-confirm { background:#f59e0b; color:#fff; border:none; border-radius:8px; padding:5px 14px; font-size:12px; font-weight:700; cursor:pointer; transition:background .15s; }
+    .btn-add-confirm:hover { background:#d97706; }
+    .btn-add-cancel  { background:none; border:none; color:#94a3b8; font-size:12px; cursor:pointer; padding:4px 8px; }
+    .btn-add-cancel:hover { color:#475569; }
+    .btn-add-open { display:flex; align-items:center; gap:5px; background:none; border:1.5px dashed #d1d5db; border-radius:9999px; color:#94a3b8; font-size:11px; font-weight:600; padding:3px 12px; cursor:pointer; margin-top:6px; transition:all .15s; }
+    .btn-add-open:hover { border-color:#f59e0b; color:#f59e0b; }
+    .custom-item .btn-del { background:none; border:none; color:#fca5a5; font-size:14px; cursor:pointer; padding:0 2px; line-height:1; transition:color .15s; }
+    .custom-item .btn-del:hover { color:#ef4444; }
   </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
@@ -162,6 +178,13 @@
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
             </div>
+            <div id="add-form-pk" class="add-item-form">
+              <input class="inp-label" placeholder="Tên hạng mục" />
+              <input class="inp-price" placeholder="Giá (VND)" type="number" min="0" />
+              <button class="btn-add-confirm" onclick="confirmAdd('pk')">+ Thêm</button>
+              <button class="btn-add-cancel" onclick="cancelAdd('pk')">Huỷ</button>
+            </div>
+            <button class="btn-add-open" onclick="openAdd('pk')">＋ Thêm hạng mục</button>
             <div class="border-t pt-2 mt-2 space-y-1">
               <div class="flex justify-between text-xs text-gray-500"><span>Tổng phòng khách</span><span id="pk-total" class="tabular-nums font-semibold">...</span></div>
             </div>
@@ -215,6 +238,13 @@
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
             </div>
+            <div id="add-form-bep" class="add-item-form">
+              <input class="inp-label" placeholder="Tên hạng mục" />
+              <input class="inp-price" placeholder="Giá (VND)" type="number" min="0" />
+              <button class="btn-add-confirm" onclick="confirmAdd('bep')">+ Thêm</button>
+              <button class="btn-add-cancel" onclick="cancelAdd('bep')">Huỷ</button>
+            </div>
+            <button class="btn-add-open" onclick="openAdd('bep')">＋ Thêm hạng mục</button>
             <div class="border-t pt-2 mt-2 space-y-1">
               <div class="flex justify-between text-xs text-gray-500"><span>Tổng phòng bếp</span><span id="bep-total" class="tabular-nums font-semibold">...</span></div>
             </div>
@@ -278,6 +308,13 @@
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
             </div>
         
+        <div id="add-form-tho" class="add-item-form">
+          <input class="inp-label" placeholder="Tên hạng mục" />
+          <input class="inp-price" placeholder="Giá (VND)" type="number" min="0" />
+          <button class="btn-add-confirm" onclick="confirmAdd('tho')">+ Thêm</button>
+          <button class="btn-add-cancel" onclick="cancelAdd('tho')">Huỷ</button>
+        </div>
+        <button class="btn-add-open" onclick="openAdd('tho')">＋ Thêm hạng mục</button>
         <div class="border-t pt-2 mt-2 space-y-1">
           <div class="flex justify-between text-xs text-gray-500"><span>Tổng phần thô</span><span id="tho-total" class="tabular-nums font-semibold">...</span></div>
         </div>
@@ -378,6 +415,13 @@
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
             </div>
           
+            <div id="add-form-wc3" class="add-item-form">
+              <input class="inp-label" placeholder="Tên hạng mục" />
+              <input class="inp-price" placeholder="Giá (VND)" type="number" min="0" />
+              <button class="btn-add-confirm" onclick="confirmAdd('wc3')">+ Thêm</button>
+              <button class="btn-add-cancel" onclick="cancelAdd('wc3')">Huỷ</button>
+            </div>
+            <button class="btn-add-open" onclick="openAdd('wc3')">＋ Thêm hạng mục</button>
             <div class="border-t pt-2 mt-2">
               <div class="flex justify-between text-xs font-bold text-amber-700"><span>Tổng T3 WC</span><span id="wc3-total" class="tabular-nums">...</span></div>
             </div>
@@ -471,6 +515,13 @@
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
             </div>
+            <div id="add-form-wc4" class="add-item-form">
+              <input class="inp-label" placeholder="Tên hạng mục" />
+              <input class="inp-price" placeholder="Giá (VND)" type="number" min="0" />
+              <button class="btn-add-confirm" onclick="confirmAdd('wc4')">+ Thêm</button>
+              <button class="btn-add-cancel" onclick="cancelAdd('wc4')">Huỷ</button>
+            </div>
+            <button class="btn-add-open" onclick="openAdd('wc4')">＋ Thêm hạng mục</button>
             <div class="border-t pt-2 mt-2 space-y-1">
               <div class="flex justify-between text-xs font-bold text-amber-700"><span>Tổng T4 WC</span><span id="wc4-total" class="tabular-nums">...</span></div>
             </div>
@@ -549,6 +600,13 @@
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
             </div>
+        <div id="add-form-ng" class="add-item-form">
+          <input class="inp-label" placeholder="Tên hạng mục" />
+          <input class="inp-price" placeholder="Giá (VND)" type="number" min="0" />
+          <button class="btn-add-confirm" onclick="confirmAdd('ng')">+ Thêm</button>
+          <button class="btn-add-cancel" onclick="cancelAdd('ng')">Huỷ</button>
+        </div>
+        <button class="btn-add-open" onclick="openAdd('ng')">＋ Thêm hạng mục</button>
         <div class="border-t pt-2 mt-2">
           <div class="flex justify-between text-xs font-bold text-amber-700"><span>T&#x1ED5;ng ph&#xF2;ng ng&#x1EE7; T4</span><span id="ng-total" class="tabular-nums">...</span></div>
         </div>
@@ -576,6 +634,13 @@
         
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
             </div>
+        <div id="add-form-thietke" class="add-item-form">
+          <input class="inp-label" placeholder="Tên hạng mục" />
+          <input class="inp-price" placeholder="Giá (VND)" type="number" min="0" />
+          <button class="btn-add-confirm" onclick="confirmAdd('thietke')">+ Thêm</button>
+          <button class="btn-add-cancel" onclick="cancelAdd('thietke')">Huỷ</button>
+        </div>
+        <button class="btn-add-open" onclick="openAdd('thietke')">＋ Thêm hạng mục</button>
         <div class="border-t pt-2 mt-2 space-y-1">
           <div class="flex justify-between text-xs text-gray-500"><span>Tổng phí thiết kế</span><span class="tabular-nums font-semibold">13,629,000đ</span></div>
         </div>
@@ -803,7 +868,7 @@
     // ── JSON save / load ─────────────────────────────────
     function getState() {
       const state = {};
-      document.querySelectorAll('.item-row[data-section]').forEach((row, i) => {
+      document.querySelectorAll('.item-row[data-section]:not(.custom-item)').forEach((row, i) => {
         const key = row.dataset.section + '_' + i;
         state[key] = {
           state: row.dataset.state,
@@ -813,8 +878,53 @@
       return state;
     }
 
+    function getCustomItems() {
+      const customs = [];
+      document.querySelectorAll('.item-row.custom-item').forEach(row => {
+        customs.push({
+          section: row.dataset.section,
+          label:   row.querySelector('.flex-1').textContent.trim(),
+          price:   parseInt(row.dataset.price),
+          state:   row.dataset.state,
+          disc:    parseInt(row.dataset.disc || 0)
+        });
+      });
+      return customs;
+    }
+
+    function restoreCustomItems(customs) {
+      // Remove any existing custom items first
+      document.querySelectorAll('.item-row.custom-item').forEach(r => r.remove());
+      customs.forEach(c => {
+        // Re-use confirmAdd logic but with provided state/disc
+        const form = document.getElementById('add-form-' + c.section);
+        if (!form) return;
+        const row = document.createElement('div');
+        row.className = 'item-row state-keep custom-item';
+        row.dataset.price   = c.price;
+        row.dataset.section = c.section;
+        row.dataset.state   = 'keep';
+        row.dataset.disc    = '0';
+        row.innerHTML = `
+          <div class="flex items-center gap-2">
+            <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+            <span class="flex-1 font-medium text-sm">${c.label}</span>
+            <span class="price-val tabular-nums font-semibold text-sm shrink-0">${fmt(c.price)}</span>
+            <button class="btn-del" title="Xoá" onclick="deleteItem(this)">✕</button>
+          </div>
+          <div class="disc-row">
+            <span class="disc-pill" onclick="setDisc(this,10)">-10%</span>
+            <span class="disc-pill" onclick="setDisc(this,20)">-20%</span>
+            <span class="disc-pill" onclick="setDisc(this,30)">-30%</span>
+            <span class="disc-pill" onclick="setDisc(this,50)">-50%</span>
+            <span class="disc-orig"></span><span class="disc-effective"></span>
+          </div>`;
+        form.parentNode.insertBefore(row, form);
+      });
+    }
+
     function applyState(state) {
-      document.querySelectorAll('.item-row[data-section]').forEach((row, i) => {
+      document.querySelectorAll('.item-row[data-section]:not(.custom-item)').forEach((row, i) => {
         const key = row.dataset.section + '_' + i;
         if (!state[key]) return;
         const { state: s, disc } = state[key];
@@ -851,8 +961,9 @@
 
     function saveJSON() {
       const data = {
-        saved: new Date().toISOString(),
-        items: getState()
+        saved:   new Date().toISOString(),
+        items:   getState(),
+        customs: getCustomItems()
       };
       const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
       const a = document.createElement('a');
@@ -869,7 +980,36 @@
       reader.onload = e => {
         try {
           const data = JSON.parse(e.target.result);
+          if (data.customs) restoreCustomItems(data.customs);
           applyState(data.items || data);
+          // Re-apply state for restored custom items
+          if (data.customs) {
+            document.querySelectorAll('.item-row.custom-item').forEach((row, i) => {
+              const c = data.customs[i];
+              if (!c) return;
+              const btn = row.querySelector('.btn-toggle');
+              row.dataset.state = c.state;
+              row.className = row.className.replace(/state-\w+/, `state-${c.state}`);
+              row.classList.toggle('cut', c.state === 'cut');
+              btn.className = `btn-toggle ${BTN_CLASS[c.state]}`;
+              btn.textContent = BTN_LABEL[c.state];
+              if (c.disc > 0) {
+                row.dataset.disc = c.disc;
+                row.querySelectorAll('.disc-pill').forEach(p => {
+                  p.classList.toggle('active', p.textContent === `-${c.disc}%`);
+                });
+                const base = c.price;
+                const eff = Math.round(base * (1 - c.disc/100));
+                const origEl = row.querySelector('.disc-orig');
+                const effEl  = row.querySelector('.disc-effective');
+                const priceEl = row.querySelector('.price-val');
+                if (origEl) origEl.textContent = fmt(base);
+                if (effEl)  effEl.textContent  = '→ ' + fmt(eff);
+                if (priceEl) priceEl.textContent = fmt(eff);
+              }
+            });
+            recalc();
+          }
         } catch {
           alert('File JSON không hợp lệ.');
         }
@@ -877,6 +1017,66 @@
       reader.readAsText(file);
       event.target.value = ''; // reset so same file can be loaded again
     }
+
+    // ── Add item ─────────────────────────────────────────
+    function openAdd(sec) {
+      const form = document.getElementById('add-form-' + sec);
+      form.classList.add('open');
+      form.querySelector('.inp-label').focus();
+    }
+    function cancelAdd(sec) {
+      const form = document.getElementById('add-form-' + sec);
+      form.classList.remove('open');
+      form.querySelector('.inp-label').value = '';
+      form.querySelector('.inp-price').value = '';
+    }
+    function confirmAdd(sec) {
+      const form = document.getElementById('add-form-' + sec);
+      const label = form.querySelector('.inp-label').value.trim();
+      const price = parseInt(form.querySelector('.inp-price').value) || 0;
+      if (!label) { form.querySelector('.inp-label').focus(); return; }
+      if (price <= 0) { form.querySelector('.inp-price').focus(); return; }
+
+      const row = document.createElement('div');
+      row.className = 'item-row state-keep custom-item';
+      row.dataset.price   = price;
+      row.dataset.section = sec;
+      row.dataset.state   = 'keep';
+      row.dataset.disc    = '0';
+      row.innerHTML = `
+        <div class="flex items-center gap-2">
+          <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+          <span class="flex-1 font-medium text-sm">${label}</span>
+          <span class="price-val tabular-nums font-semibold text-sm shrink-0">${fmt(price)}</span>
+          <button class="btn-del" title="Xoá" onclick="deleteItem(this)">✕</button>
+        </div>
+        <div class="disc-row">
+          <span class="disc-pill" onclick="setDisc(this,10)">-10%</span>
+          <span class="disc-pill" onclick="setDisc(this,20)">-20%</span>
+          <span class="disc-pill" onclick="setDisc(this,30)">-30%</span>
+          <span class="disc-pill" onclick="setDisc(this,50)">-50%</span>
+          <span class="disc-orig"></span><span class="disc-effective"></span>
+        </div>`;
+
+      form.parentNode.insertBefore(row, form);
+      cancelAdd(sec);
+      recalc();
+    }
+    function deleteItem(btn) {
+      const row = btn.closest('.item-row');
+      row.remove();
+      recalc();
+    }
+
+    // Allow Enter key to confirm
+    document.addEventListener('keydown', function(e) {
+      if (e.key !== 'Enter') return;
+      const active = document.activeElement;
+      const form = active && active.closest('.add-item-form');
+      if (!form) return;
+      const sec = form.id.replace('add-form-', '');
+      confirmAdd(sec);
+    });
 
     // Init
     recalc();
