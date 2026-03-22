@@ -85,6 +85,20 @@
     .btn-add-confirm:hover { background:#d97706; }
     .btn-add-cancel  { background:none; border:none; color:#94a3b8; font-size:12px; cursor:pointer; padding:4px 8px; }
     .btn-add-cancel:hover { color:#475569; }
+    /* Inline edit */
+    .edit-overlay { display:none; position:absolute; inset:0; background:rgba(255,255,255,0.97); border-radius:8px; z-index:5; align-items:center; gap:6px; padding:4px 6px; }
+    .item-row { position:relative; }
+    .item-row:hover .btn-edit { opacity:1; }
+    .btn-edit { opacity:0; background:none; border:none; color:#94a3b8; font-size:12px; cursor:pointer; padding:0 4px; transition:opacity .15s, color .15s; }
+    .btn-edit:hover { color:#f59e0b; }
+    .edit-overlay.open { display:flex; }
+    .edit-overlay input { border:1.5px solid #e2e8f0; border-radius:7px; padding:4px 8px; font-size:12px; outline:none; background:#fff; transition:border-color .15s; }
+    .edit-overlay input:focus { border-color:#f59e0b; }
+    .edit-overlay .inp-edit-label { flex:1; min-width:100px; }
+    .edit-overlay .inp-edit-price { width:120px; }
+    .btn-edit-save { background:#f59e0b; color:#fff; border:none; border-radius:7px; padding:4px 10px; font-size:11px; font-weight:700; cursor:pointer; }
+    .btn-edit-save:hover { background:#d97706; }
+    .btn-edit-cancel { background:none; border:none; color:#94a3b8; font-size:11px; cursor:pointer; padding:3px 6px; }
     .btn-add-open { display:flex; align-items:center; gap:5px; background:none; border:1.5px dashed #d1d5db; border-radius:9999px; color:#94a3b8; font-size:11px; font-weight:600; padding:3px 12px; cursor:pointer; margin-top:6px; transition:all .15s; }
     .btn-add-open:hover { border-color:#f59e0b; color:#f59e0b; }
     .custom-item .btn-del { background:none; border:none; color:#fca5a5; font-size:14px; cursor:pointer; padding:0 2px; line-height:1; transition:color .15s; }
@@ -143,41 +157,140 @@
                 <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
                 <span class="flex-1">Cửa lùa hệ Slim 4 cánh</span>
                 <span class="price-val tabular-nums font-medium">25,614,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+            </div>
             </div>
             <div class="item-row state-keep" data-price="5400000" data-section="pk" data-state="keep" data-disc="0">
               <div class="flex items-center gap-2">
                 <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
                 <span class="flex-1">Phụ kiện cửa lùa</span>
                 <span class="price-val tabular-nums font-medium">5,400,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+            </div>
             </div>
             <div class="item-row state-keep" data-price="5976000" data-section="pk" data-state="keep" data-disc="0">
               <div class="flex items-center gap-2">
                 <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
                 <span class="flex-1">Kệ tivi</span>
                 <span class="price-val tabular-nums font-medium">5,976,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="8799000" data-section="pk" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-cut cut" data-price="8799000" data-section="pk" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">Vách ốp tivi</span>
                 <span class="price-val tabular-nums font-medium">8,799,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="3744000" data-section="pk" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-cut cut" data-price="3744000" data-section="pk" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">Tủ đặt bể cá</span>
                 <span class="price-val tabular-nums font-medium">3,744,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
+            </div>
+<div class="item-row state-keep custom-item" data-price="1" data-section="pk" data-state="keep" data-disc="0">
+  <div class="flex items-center gap-2">
+    <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+    <span class="flex-1 font-medium text-sm">Phá tường</span>
+    <span class="price-val tabular-nums font-semibold text-sm shrink-0">1đ</span>
+    <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
+    <button class="btn-del" title="Xoá" onclick="deleteItem(this)">✕</button>
+  </div>
+  <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+  <div class="edit-overlay">
+    <input class="inp-edit-label" placeholder="Tên" />
+    <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+    <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+    <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+  </div>
+</div>
+<div class="item-row state-keep custom-item" data-price="2600000" data-section="pk" data-state="keep" data-disc="0">
+  <div class="flex items-center gap-2">
+    <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+    <span class="flex-1 font-medium text-sm">Thay nan cửa sổ</span>
+    <span class="price-val tabular-nums font-semibold text-sm shrink-0">2,600,000đ</span>
+    <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
+    <button class="btn-del" title="Xoá" onclick="deleteItem(this)">✕</button>
+  </div>
+  <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+  <div class="edit-overlay">
+    <input class="inp-edit-label" placeholder="Tên" />
+    <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+    <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+    <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+  </div>
+</div>
+<div class="item-row state-keep custom-item" data-price="9000000" data-section="pk" data-state="keep" data-disc="0">
+  <div class="flex items-center gap-2">
+    <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+    <span class="flex-1 font-medium text-sm">Tủ lạnh</span>
+    <span class="price-val tabular-nums font-semibold text-sm shrink-0">9,000,000đ</span>
+    <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
+    <button class="btn-del" title="Xoá" onclick="deleteItem(this)">✕</button>
+  </div>
+  <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+  <div class="edit-overlay">
+    <input class="inp-edit-label" placeholder="Tên" />
+    <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+    <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+    <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+  </div>
+</div>
+<div class="item-row state-keep custom-item" data-price="10000000" data-section="pk" data-state="keep" data-disc="0">
+  <div class="flex items-center gap-2">
+    <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+    <span class="flex-1 font-medium text-sm">Sofa</span>
+    <span class="price-val tabular-nums font-semibold text-sm shrink-0">10,000,000đ</span>
+    <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
+    <button class="btn-del" title="Xoá" onclick="deleteItem(this)">✕</button>
+  </div>
+  <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+  <div class="edit-overlay">
+    <input class="inp-edit-label" placeholder="Tên" />
+    <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+    <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+    <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+  </div>
+</div>
             <div id="add-form-pk" class="add-item-form">
               <input class="inp-label" placeholder="Tên hạng mục" />
               <input class="inp-price" placeholder="Giá (VND)" type="number" min="0" />
@@ -214,29 +327,50 @@
             </div>
           </div>
           <div class="p-4 space-y-1.5 text-sm">
-            <div class="item-row state-keep" data-price="9510000" data-section="bep" data-state="keep" data-disc="0">
+            <div class="item-row state-cut cut" data-price="9510000" data-section="bep" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">Tủ bếp dưới + đá mặt bếp</span>
                 <span class="price-val tabular-nums font-medium">9,510,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="10310000" data-section="bep" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-cut cut" data-price="10310000" data-section="bep" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">Tủ bếp trên</span>
                 <span class="price-val tabular-nums font-medium">10,310,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="3671000" data-section="bep" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-cut cut" data-price="3671000" data-section="bep" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">Hệ tủ lạnh</span>
                 <span class="price-val tabular-nums font-medium">3,671,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+            </div>
             </div>
             <div id="add-form-bep" class="add-item-form">
               <input class="inp-label" placeholder="Tên hạng mục" />
@@ -263,49 +397,84 @@
         
       </div>
       <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-1.5 text-sm">
-            <div class="item-row state-keep" data-price="8440000" data-section="tho" data-state="keep" data-disc="0">
+            <div class="item-row state-cut cut" data-price="8440000" data-section="tho" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">Phá dỡ tầng 2</span>
                 <span class="price-val tabular-nums font-medium">8,440,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
             
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="4200000" data-section="tho" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-cut cut" data-price="4200000" data-section="tho" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">Chống thấm Sika T4 WC</span>
                 <span class="price-val tabular-nums font-medium">4,200,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
             
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="45600000" data-section="tho" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-cut cut" data-price="45600000" data-section="tho" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">MEP điện + nước</span>
                 <span class="price-val tabular-nums font-medium">45,600,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
             
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="18568900" data-section="tho" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-cut cut" data-price="18568900" data-section="tho" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">Thạch cao + sơn tường</span>
                 <span class="price-val tabular-nums font-medium">18,568,900đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="7800000" data-section="tho" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-cut cut" data-price="7800000" data-section="tho" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">Vệ sinh công trình</span>
                 <span class="price-val tabular-nums font-medium">7,800,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
             
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+            </div>
             </div>
         
         <div id="add-form-tho" class="add-item-form">
@@ -341,80 +510,207 @@
             </div>
           </div>
           <div class="p-4 space-y-1.5 text-sm">
-            <div class="item-row state-keep" data-price="4200000" data-section="wc3" data-state="keep" data-disc="0">
+            <div class="item-row state-cut cut" data-price="4200000" data-section="wc3" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">Chống thấm Sika</span>
                 <span class="price-val tabular-nums font-medium">4,200,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
             
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="5400000" data-section="wc3" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-buy" data-price="5400000" data-section="wc3" data-state="buy" data-disc="50">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <button class="btn-toggle btn-buy" onclick="cycleState(this)">Tự mua</button>
                 <span class="flex-1">Cửa WC composite</span>
-                <span class="price-val tabular-nums font-medium">5,400,000đ</span>
+                <span class="price-val tabular-nums font-medium">2,700,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
-              <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+              <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill active" onclick="setDisc(this,50)">-50%</span><span class="disc-orig">5,400,000đ</span><span class="disc-effective">→ 2,700,000đ</span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="9500000" data-section="wc3" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-cut cut" data-price="9500000" data-section="wc3" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">Bồn cầu âm tường</span>
                 <span class="price-val tabular-nums font-medium">9,500,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="7200000" data-section="wc3" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-cut cut" data-price="7200000" data-section="wc3" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">Phụ kiện vệ sinh</span>
                 <span class="price-val tabular-nums font-medium">7,200,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="2028000" data-section="wc3" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-cut cut" data-price="2028000" data-section="wc3" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">Đèn trần WC</span>
                 <span class="price-val tabular-nums font-medium">2,028,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="2268000" data-section="wc3" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-cut cut" data-price="2268000" data-section="wc3" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">Kệ tủ nhỏ trên bồn cầu</span>
                 <span class="price-val tabular-nums font-medium">2,268,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="7560000" data-section="wc3" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-cut cut" data-price="7560000" data-section="wc3" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">Tủ trên bồn cầu</span>
                 <span class="price-val tabular-nums font-medium">7,560,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+            </div>
             </div>
             <div class="item-row state-keep" data-price="2500000" data-section="wc3" data-state="keep" data-disc="0">
               <div class="flex items-center gap-2">
                 <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
                 <span class="flex-1">Chậu rửa</span>
                 <span class="price-val tabular-nums font-medium">2,500,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="2148000" data-section="wc3" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-cut cut" data-price="2148000" data-section="wc3" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">Bình nóng lạnh</span>
                 <span class="price-val tabular-nums font-medium">2,148,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+            </div>
             </div>
           
+<div class="item-row state-keep custom-item" data-price="3000000" data-section="wc3" data-state="keep" data-disc="0">
+  <div class="flex items-center gap-2">
+    <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+    <span class="flex-1 font-medium text-sm">Vòi sen</span>
+    <span class="price-val tabular-nums font-semibold text-sm shrink-0">3,000,000đ</span>
+    <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
+    <button class="btn-del" title="Xoá" onclick="deleteItem(this)">✕</button>
+  </div>
+  <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+  <div class="edit-overlay">
+    <input class="inp-edit-label" placeholder="Tên" />
+    <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+    <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+    <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+  </div>
+</div>
+<div class="item-row state-keep custom-item" data-price="2000000" data-section="wc3" data-state="keep" data-disc="0">
+  <div class="flex items-center gap-2">
+    <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+    <span class="flex-1 font-medium text-sm">Đá chậu rửa</span>
+    <span class="price-val tabular-nums font-semibold text-sm shrink-0">2,000,000đ</span>
+    <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
+    <button class="btn-del" title="Xoá" onclick="deleteItem(this)">✕</button>
+  </div>
+  <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+  <div class="edit-overlay">
+    <input class="inp-edit-label" placeholder="Tên" />
+    <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+    <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+    <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+  </div>
+</div>
+<div class="item-row state-keep custom-item" data-price="1000000" data-section="wc3" data-state="keep" data-disc="0">
+  <div class="flex items-center gap-2">
+    <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+    <span class="flex-1 font-medium text-sm">Vòi chậu rửa</span>
+    <span class="price-val tabular-nums font-semibold text-sm shrink-0">1,000,000đ</span>
+    <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
+    <button class="btn-del" title="Xoá" onclick="deleteItem(this)">✕</button>
+  </div>
+  <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+  <div class="edit-overlay">
+    <input class="inp-edit-label" placeholder="Tên" />
+    <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+    <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+    <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+  </div>
+</div>
+<div class="item-row state-keep custom-item" data-price="3000000" data-section="wc3" data-state="keep" data-disc="0">
+  <div class="flex items-center gap-2">
+    <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+    <span class="flex-1 font-medium text-sm">Kệ góc + phụ kiện khác</span>
+    <span class="price-val tabular-nums font-semibold text-sm shrink-0">3,000,000đ</span>
+    <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
+    <button class="btn-del" title="Xoá" onclick="deleteItem(this)">✕</button>
+  </div>
+  <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+  <div class="edit-overlay">
+    <input class="inp-edit-label" placeholder="Tên" />
+    <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+    <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+    <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+  </div>
+</div>
             <div id="add-form-wc3" class="add-item-form">
               <input class="inp-label" placeholder="Tên hạng mục" />
               <input class="inp-price" placeholder="Giá (VND)" type="number" min="0" />
@@ -441,6 +737,38 @@
       </div>
       <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
         <div class="mt-4 space-y-1.5 text-sm">
+<div class="item-row state-keep custom-item" data-price="6000000" data-section="ng3" data-state="keep" data-disc="0">
+  <div class="flex items-center gap-2">
+    <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+    <span class="flex-1 font-medium text-sm">2 cửa phòng ngủ</span>
+    <span class="price-val tabular-nums font-semibold text-sm shrink-0">6,000,000đ</span>
+    <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
+    <button class="btn-del" title="Xoá" onclick="deleteItem(this)">✕</button>
+  </div>
+  <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+  <div class="edit-overlay">
+    <input class="inp-edit-label" placeholder="Tên" />
+    <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+    <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+    <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+  </div>
+</div>
+<div class="item-row state-keep custom-item" data-price="5000000" data-section="ng3" data-state="keep" data-disc="0">
+  <div class="flex items-center gap-2">
+    <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+    <span class="flex-1 font-medium text-sm">Cửa sổ</span>
+    <span class="price-val tabular-nums font-semibold text-sm shrink-0">5,000,000đ</span>
+    <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
+    <button class="btn-del" title="Xoá" onclick="deleteItem(this)">✕</button>
+  </div>
+  <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+  <div class="edit-overlay">
+    <input class="inp-edit-label" placeholder="Tên" />
+    <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+    <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+    <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+  </div>
+</div>
           <div id="add-form-ng3" class="add-item-form">
             <input class="inp-label" placeholder="Tên hạng mục" />
             <input class="inp-price" placeholder="Giá (VND)" type="number" min="0" />
@@ -476,69 +804,125 @@
           </div>
           <div class="p-4 flex flex-col justify-center text-sm text-gray-600">
           <div class="space-y-1.5 text-sm">
-            <div class="item-row state-keep" data-price="5400000" data-section="wc4" data-state="keep" data-disc="0">
+            <div class="item-row state-cut cut" data-price="5400000" data-section="wc4" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">Cửa WC composite</span>
                 <span class="price-val tabular-nums font-medium">5,400,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="9500000" data-section="wc4" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-cut cut" data-price="9500000" data-section="wc4" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">Bồn cầu âm tường</span>
                 <span class="price-val tabular-nums font-medium">9,500,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="7200000" data-section="wc4" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-cut cut" data-price="7200000" data-section="wc4" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">Phụ kiện vệ sinh</span>
                 <span class="price-val tabular-nums font-medium">7,200,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="2028000" data-section="wc4" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-cut cut" data-price="2028000" data-section="wc4" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">Đèn trần WC</span>
                 <span class="price-val tabular-nums font-medium">2,028,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="2268000" data-section="wc4" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-cut cut" data-price="2268000" data-section="wc4" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">Kệ tủ nhỏ trên bồn cầu</span>
                 <span class="price-val tabular-nums font-medium">2,268,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="7560000" data-section="wc4" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-cut cut" data-price="7560000" data-section="wc4" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">Tủ trên bồn cầu</span>
                 <span class="price-val tabular-nums font-medium">7,560,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="2500000" data-section="wc4" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-cut cut" data-price="2500000" data-section="wc4" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">Chậu rửa</span>
                 <span class="price-val tabular-nums font-medium">2,500,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="2148000" data-section="wc4" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-cut cut" data-price="2148000" data-section="wc4" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">Bình nóng lạnh</span>
                 <span class="price-val tabular-nums font-medium">2,148,000đ</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+            </div>
             </div>
             <div id="add-form-wc4" class="add-item-form">
               <input class="inp-label" placeholder="Tên hạng mục" />
@@ -577,53 +961,95 @@
         </div>
         
       <div class="mt-4 space-y-1.5 text-sm">
-            <div class="item-row state-keep" data-price="5760000" data-section="ng" data-state="keep" data-disc="0">
+            <div class="item-row state-cut cut" data-price="5760000" data-section="ng" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Gi&#x1EEF;</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">C&#x1EED;a ph&#xF2;ng ng&#x1EE7; T4</span>
                 <span class="price-val tabular-nums font-medium">5,760,000&#x111;</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="11539000" data-section="ng" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-cut cut" data-price="11539000" data-section="ng" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Gi&#x1EEF;</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">V&#xE1;ch &#x1ED1;p &#x111;&#x1EA7;u gi&#x01B0;&#x1EDD;ng</span>
                 <span class="price-val tabular-nums font-medium">11,539,000&#x111;</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="12841000" data-section="ng" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-cut cut" data-price="12841000" data-section="ng" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Gi&#x1EEF;</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">T&#x1EE7; qu&#x1EA7;n &#xE1;o</span>
                 <span class="price-val tabular-nums font-medium">12,841,000&#x111;</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="25381000" data-section="ng" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-cut cut" data-price="25381000" data-section="ng" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Gi&#x1EEF;</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">H&#x1EC7; t&#x1EE7; tivi + b&#xE0;n ph&#x1EA5;n</span>
                 <span class="price-val tabular-nums font-medium">25,381,000&#x111;</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="4200000" data-section="ng" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-cut cut" data-price="4200000" data-section="ng" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Gi&#x1EEF;</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">G&#x1B0;&#x1A1;ng LED</span>
                 <span class="price-val tabular-nums font-medium">4,200,000&#x111;</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
             </div>
-            <div class="item-row state-keep" data-price="3600000" data-section="ng" data-state="keep" data-disc="0">
+            </div>
+            <div class="item-row state-cut cut" data-price="3600000" data-section="ng" data-state="cut" data-disc="0">
               <div class="flex items-center gap-2">
-                <button class="btn-toggle btn-keep" onclick="cycleState(this)">Gi&#x1EEF;</button>
+                <button class="btn-toggle btn-cut" onclick="cycleState(this)">Cắt</button>
                 <span class="flex-1">V&#x1EAD;n chuy&#x1EC3;n n&#x1ED9;i th&#x1EA5;t</span>
                 <span class="price-val tabular-nums font-medium">3,600,000&#x111;</span>
+              <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
               </div>
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+            </div>
             </div>
         <div id="add-form-ng" class="add-item-form">
           <input class="inp-label" placeholder="Tên hạng mục" />
@@ -650,6 +1076,134 @@
       </div>
       <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
         <div class="mt-4 space-y-1.5 text-sm">
+<div class="item-row state-keep custom-item" data-price="1" data-section="t5" data-state="keep" data-disc="0">
+  <div class="flex items-center gap-2">
+    <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+    <span class="flex-1 font-medium text-sm">công cậy nền, lát nền, thay thiết bị, chát cửa vs</span>
+    <span class="price-val tabular-nums font-semibold text-sm shrink-0">1đ</span>
+    <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
+    <button class="btn-del" title="Xoá" onclick="deleteItem(this)">✕</button>
+  </div>
+  <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+  <div class="edit-overlay">
+    <input class="inp-edit-label" placeholder="Tên" />
+    <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+    <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+    <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+  </div>
+</div>
+<div class="item-row state-keep custom-item" data-price="1" data-section="t5" data-state="keep" data-disc="0">
+  <div class="flex items-center gap-2">
+    <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+    <span class="flex-1 font-medium text-sm">phá rỡ cửa phòng khách</span>
+    <span class="price-val tabular-nums font-semibold text-sm shrink-0">1đ</span>
+    <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
+    <button class="btn-del" title="Xoá" onclick="deleteItem(this)">✕</button>
+  </div>
+  <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+  <div class="edit-overlay">
+    <input class="inp-edit-label" placeholder="Tên" />
+    <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+    <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+    <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+  </div>
+</div>
+<div class="item-row state-keep custom-item" data-price="1" data-section="t5" data-state="keep" data-disc="0">
+  <div class="flex items-center gap-2">
+    <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+    <span class="flex-1 font-medium text-sm">xử lý chống thấm / thay bể nước</span>
+    <span class="price-val tabular-nums font-semibold text-sm shrink-0">1đ</span>
+    <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
+    <button class="btn-del" title="Xoá" onclick="deleteItem(this)">✕</button>
+  </div>
+  <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+  <div class="edit-overlay">
+    <input class="inp-edit-label" placeholder="Tên" />
+    <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+    <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+    <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+  </div>
+</div>
+<div class="item-row state-keep custom-item" data-price="1" data-section="t5" data-state="keep" data-disc="0">
+  <div class="flex items-center gap-2">
+    <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+    <span class="flex-1 font-medium text-sm">lắp quạt thông gió</span>
+    <span class="price-val tabular-nums font-semibold text-sm shrink-0">1đ</span>
+    <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
+    <button class="btn-del" title="Xoá" onclick="deleteItem(this)">✕</button>
+  </div>
+  <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+  <div class="edit-overlay">
+    <input class="inp-edit-label" placeholder="Tên" />
+    <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+    <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+    <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+  </div>
+</div>
+<div class="item-row state-keep custom-item" data-price="10000000" data-section="t5" data-state="keep" data-disc="0">
+  <div class="flex items-center gap-2">
+    <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+    <span class="flex-1 font-medium text-sm">tổng công</span>
+    <span class="price-val tabular-nums font-semibold text-sm shrink-0">10,000,000đ</span>
+    <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
+    <button class="btn-del" title="Xoá" onclick="deleteItem(this)">✕</button>
+  </div>
+  <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+  <div class="edit-overlay">
+    <input class="inp-edit-label" placeholder="Tên" />
+    <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+    <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+    <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+  </div>
+</div>
+<div class="item-row state-keep custom-item" data-price="20000000" data-section="t5" data-state="keep" data-disc="0">
+  <div class="flex items-center gap-2">
+    <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+    <span class="flex-1 font-medium text-sm">sơn</span>
+    <span class="price-val tabular-nums font-semibold text-sm shrink-0">20,000,000đ</span>
+    <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
+    <button class="btn-del" title="Xoá" onclick="deleteItem(this)">✕</button>
+  </div>
+  <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+  <div class="edit-overlay">
+    <input class="inp-edit-label" placeholder="Tên" />
+    <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+    <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+    <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+  </div>
+</div>
+<div class="item-row state-keep custom-item" data-price="12000000" data-section="t5" data-state="keep" data-disc="0">
+  <div class="flex items-center gap-2">
+    <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+    <span class="flex-1 font-medium text-sm">công sơn</span>
+    <span class="price-val tabular-nums font-semibold text-sm shrink-0">12,000,000đ</span>
+    <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
+    <button class="btn-del" title="Xoá" onclick="deleteItem(this)">✕</button>
+  </div>
+  <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+  <div class="edit-overlay">
+    <input class="inp-edit-label" placeholder="Tên" />
+    <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+    <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+    <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+  </div>
+</div>
+<div class="item-row state-keep custom-item" data-price="3500000" data-section="t5" data-state="keep" data-disc="0">
+  <div class="flex items-center gap-2">
+    <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
+    <span class="flex-1 font-medium text-sm">gạch nền 2 tầng + cát/xi...</span>
+    <span class="price-val tabular-nums font-semibold text-sm shrink-0">3,500,000đ</span>
+    <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
+    <button class="btn-del" title="Xoá" onclick="deleteItem(this)">✕</button>
+  </div>
+  <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+  <div class="edit-overlay">
+    <input class="inp-edit-label" placeholder="Tên" />
+    <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+    <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+    <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+  </div>
+</div>
           <div id="add-form-t5" class="add-item-form">
             <input class="inp-label" placeholder="Tên hạng mục" />
             <input class="inp-price" placeholder="Giá (VND)" type="number" min="0" />
@@ -683,6 +1237,12 @@
           </div>
         
               <div class="disc-row"><span class="disc-pill" onclick="setDisc(this,10)">-10%</span><span class="disc-pill" onclick="setDisc(this,20)">-20%</span><span class="disc-pill" onclick="setDisc(this,30)">-30%</span><span class="disc-pill" onclick="setDisc(this,50)">-50%</span><span class="disc-orig"></span><span class="disc-effective"></span></div>
+            <div class="edit-overlay">
+              <input class="inp-edit-label" placeholder="Tên" />
+              <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+              <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+              <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
+            </div>
             </div>
         <div id="add-form-thietke" class="add-item-form">
           <input class="inp-label" placeholder="Tên hạng mục" />
@@ -733,12 +1293,7 @@
       </div>
     </section>
 
-    <!-- ══════════════════ EXPORT ══════════════════ -->
-    <section class="bg-gray-50 border border-gray-200 rounded-2xl p-4 text-center">
-      <a href="detail.html" class="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:text-blue-800 underline underline-offset-2">
-        📋 Xem báo giá chi tiết (tất cả hạng mục)
-      </a>
-    </section>
+
 
     <section class="bg-white border border-gray-200 rounded-2xl p-5">
       <h3 class="font-bold text-gray-800 mb-3">Lưu / Tải trạng thái</h3>
@@ -790,7 +1345,12 @@
     function closeLightbox() {
       document.getElementById('lightbox').classList.remove('open');
     }
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        closeLightbox();
+        document.querySelectorAll('.edit-overlay.open').forEach(o => o.classList.remove('open'));
+      }
+    });
 
     // ── Toggle state ─────────────────────────────────────
     const STATES = ['keep','buy','cut'];
@@ -971,6 +1531,7 @@
             <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
             <span class="flex-1 font-medium text-sm">${c.label}</span>
             <span class="price-val tabular-nums font-semibold text-sm shrink-0">${fmt(c.price)}</span>
+            <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
             <button class="btn-del" title="Xoá" onclick="deleteItem(this)">✕</button>
           </div>
           <div class="disc-row">
@@ -979,6 +1540,12 @@
             <span class="disc-pill" onclick="setDisc(this,30)">-30%</span>
             <span class="disc-pill" onclick="setDisc(this,50)">-50%</span>
             <span class="disc-orig"></span><span class="disc-effective"></span>
+          </div>
+          <div class="edit-overlay">
+            <input class="inp-edit-label" placeholder="Tên" />
+            <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+            <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+            <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
           </div>`;
         form.parentNode.insertBefore(row, form);
       });
@@ -1109,6 +1676,7 @@
           <button class="btn-toggle btn-keep" onclick="cycleState(this)">Giữ</button>
           <span class="flex-1 font-medium text-sm">${label}</span>
           <span class="price-val tabular-nums font-semibold text-sm shrink-0">${fmt(price)}</span>
+          <button class="btn-edit" onclick="openEdit(this)" title="Sửa">✎</button>
           <button class="btn-del" title="Xoá" onclick="deleteItem(this)">✕</button>
         </div>
         <div class="disc-row">
@@ -1117,6 +1685,12 @@
           <span class="disc-pill" onclick="setDisc(this,30)">-30%</span>
           <span class="disc-pill" onclick="setDisc(this,50)">-50%</span>
           <span class="disc-orig"></span><span class="disc-effective"></span>
+        </div>
+        <div class="edit-overlay">
+          <input class="inp-edit-label" placeholder="Tên" />
+          <input class="inp-edit-price" placeholder="Giá" type="number" min="0" />
+          <button class="btn-edit-save" onclick="saveEdit(this)">✓</button>
+          <button class="btn-edit-cancel" onclick="cancelEdit(this)">✕</button>
         </div>`;
 
       form.parentNode.insertBefore(row, form);
@@ -1141,6 +1715,44 @@
 
     // Init
     recalc();
+
+    // ── Inline edit ──────────────────────────────────────
+    function openEdit(btn) {
+      const row = btn.closest('.item-row');
+      const overlay = row.querySelector('.edit-overlay');
+      const label = row.querySelector('.flex-1').textContent.trim();
+      const price = parseInt(row.dataset.price);
+      overlay.querySelector('.inp-edit-label').value = label;
+      overlay.querySelector('.inp-edit-price').value = price;
+      overlay.classList.add('open');
+      overlay.querySelector('.inp-edit-label').focus();
+    }
+    function cancelEdit(btn) {
+      btn.closest('.edit-overlay').classList.remove('open');
+    }
+    function saveEdit(btn) {
+      const overlay = btn.closest('.edit-overlay');
+      const row = overlay.closest('.item-row');
+      const newLabel = overlay.querySelector('.inp-edit-label').value.trim();
+      const newPrice = parseInt(overlay.querySelector('.inp-edit-price').value) || 0;
+      if (!newLabel || newPrice <= 0) return;
+      row.querySelector('.flex-1').textContent = newLabel;
+      row.dataset.price = newPrice;
+      const disc = parseInt(row.dataset.disc || 0);
+      const effective = disc > 0 ? Math.round(newPrice * (1 - disc/100)) : newPrice;
+      const priceEl = row.querySelector('.price-val');
+      if (disc > 0) {
+        const origEl = row.querySelector('.disc-orig');
+        const effEl  = row.querySelector('.disc-effective');
+        if (origEl) origEl.textContent = fmt(newPrice);
+        if (effEl)  effEl.textContent  = '→ ' + fmt(effective);
+        if (priceEl) priceEl.textContent = fmt(effective);
+      } else {
+        if (priceEl) priceEl.textContent = fmt(newPrice);
+      }
+      overlay.classList.remove('open');
+      recalc();
+    }
 
     // Tap hint
     setTimeout(function() {
