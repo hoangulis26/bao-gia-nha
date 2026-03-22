@@ -430,6 +430,31 @@
       </div>
     </section>
 
+    <!-- ══════════════════ T3 — PHÒNG NGỦ ══════════════════ -->
+    <section data-section="ng3">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-1 h-8 bg-gray-500 rounded"></div>
+        <div>
+          <h2 class="text-lg font-bold">Tầng 3 — Phòng ngủ <span class="text-sm font-normal text-gray-400">(sàn T3)</span></h2>
+        </div>
+        <span class="ml-auto text-base font-bold text-amber-700" id="ng3-total-header">...</span>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+        <div class="mt-4 space-y-1.5 text-sm">
+          <div id="add-form-ng3" class="add-item-form">
+            <input class="inp-label" placeholder="Tên hạng mục" />
+            <input class="inp-price" placeholder="Giá (VND)" type="number" min="0" />
+            <button class="btn-add-confirm" onclick="confirmAdd('ng3')">+ Thêm</button>
+            <button class="btn-add-cancel" onclick="cancelAdd('ng3')">Huỷ</button>
+          </div>
+          <button class="btn-add-open" onclick="openAdd('ng3')">＋ Thêm hạng mục</button>
+          <div class="border-t pt-2 mt-2">
+            <div class="flex justify-between text-xs font-bold text-amber-700"><span>Tổng phòng ngủ T3</span><span id="ng3-total" class="tabular-nums">...</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ══════════════════ T4 — WC ══════════════════ -->
     <section data-section="wc4">
       <div class="flex items-center gap-3 mb-3">
@@ -614,6 +639,31 @@
       </div>
     </section>
 
+    <!-- ══════════════════ T5 ══════════════════ -->
+    <section data-section="t5">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-1 h-8 bg-gray-500 rounded"></div>
+        <div>
+          <h2 class="text-lg font-bold">Tầng 5 <span class="text-sm font-normal text-gray-400">(sàn T5)</span></h2>
+        </div>
+        <span class="ml-auto text-base font-bold text-amber-700" id="t5-total-header">...</span>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+        <div class="mt-4 space-y-1.5 text-sm">
+          <div id="add-form-t5" class="add-item-form">
+            <input class="inp-label" placeholder="Tên hạng mục" />
+            <input class="inp-price" placeholder="Giá (VND)" type="number" min="0" />
+            <button class="btn-add-confirm" onclick="confirmAdd('t5')">+ Thêm</button>
+            <button class="btn-add-cancel" onclick="cancelAdd('t5')">Huỷ</button>
+          </div>
+          <button class="btn-add-open" onclick="openAdd('t5')">＋ Thêm hạng mục</button>
+          <div class="border-t pt-2 mt-2">
+            <div class="flex justify-between text-xs font-bold text-amber-700"><span>Tổng T5</span><span id="t5-total" class="tabular-nums">...</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ══════════════════ PHÍ THIẾT KẾ ══════════════════ -->
     <section data-section="thietke">
       <div class="flex items-center gap-3 mb-3">
@@ -665,6 +715,10 @@
         <div class="bg-white rounded-2xl border border-gray-100 p-5">
           <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Tầng 4</p>
           <p class="text-3xl font-bold" id="t4-total">...</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-gray-100 p-5">
+          <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Tầng 5</p>
+          <p class="text-3xl font-bold" id="t5-summary">...</p>
         </div>
       </div>
       <!-- Grand total bar -->
@@ -809,8 +863,10 @@
       const bep = sectionTotal('bep');
       const tho = sectionTotal('tho');
       const wc3 = sectionTotal('wc3');
+      const ng3 = sectionTotal('ng3');
       const tk  = sectionTotal('thietke');
       const ng  = sectionTotal('ng');
+      const t5  = sectionTotal('t5');
 
       const pkShare  = pk  / 3;
       const bepShare = bep / 3;
@@ -823,11 +879,16 @@
       setText('tho-total',  fmt(tho),  tho);
       setText('wc3-total',        fmt(wc3), wc3);
       setText('wc3-total-header', fmt(wc3), wc3);
+      setText('ng3-total',        fmt(ng3), ng3);
+      setText('ng3-total-header', fmt(ng3), ng3);
       setText('ng-total',        fmt(ng), ng);
       setText('ng-total-header', fmt(ng), ng);
+      setText('t5-total',        fmt(t5), t5);
+      setText('t5-total-header', fmt(t5), t5);
+      setText('t5-summary',      fmt(t5), t5);
 
       // T3 total
-      const myTotal = wc3 + pkShare + bepShare + thoShare + tkShare;
+      const myTotal = wc3 + ng3 + pkShare + bepShare + thoShare + tkShare;
       setText('my-total', fmt(myTotal), myTotal);
       // T4 WC
       const wc4 = sectionTotal('wc4');
@@ -841,7 +902,7 @@
       setText('t2-total', fmt(sharedPer3), sharedPer3);
       // T2 total
       // Grand total
-      const grand = myTotal + t4Total + sharedPer3;
+      const grand = myTotal + t4Total + sharedPer3 + t5;
       setText('grand-total', fmt(grand), grand);
     }
 
